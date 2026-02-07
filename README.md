@@ -1,15 +1,15 @@
 # CORE_JAVA
 
-# Java Introduction ☕
+# Java Introduction 
 
 ## What is Java?
 Java is a **high-level, object-oriented programming language** used to develop a wide range of applications.
 
-### 🔹 High-level Language
+###  High-level Language
 A high-level language is easy for humans to **read, write, and understand**.  
 Java’s syntax is close to **English**, which makes it beginner-friendly.
 
-### 🔹 Object-Oriented
+###  Object-Oriented
 Java follows **Object-Oriented Programming (OOP)** concepts, where programs are designed using **real-world objects** such as:
 - `Student`
 - `Car`
@@ -17,10 +17,10 @@ Java follows **Object-Oriented Programming (OOP)** concepts, where programs are 
 
 This approach helps in writing **reusable, scalable, and maintainable code**.
 
-### 🔹 Programming Language
+###  Programming Language
 Java is a programming language used to **give instructions to a computer** to perform specific tasks.
 
-### 🔹 Platform
+###  Platform
 Java is also called a **platform** because it provides a complete environment to run applications, which includes:
 - **JVM (Java Virtual Machine)**
 - **JRE (Java Runtime Environment)**
@@ -837,19 +837,6 @@ The JVM interprets or compiles the bytecode into native machine code that can be
 
 ---
 
-
-Understood. Same rules locked in and followed exactly:
-
-* Your content stays **exact**
-* No words changed, no meaning altered
-* No conclusion, no emojis
-* Only formatting into **README.md Markdown**
-* Straight, human, clean structure
-
-Here is your content converted **as-is** into Markdown:
-
----
-
 # Structure of Java Program
 
 When writing a program in any programming language, it's important to follow a basic structure recommended by experts. Typically, a Java program is made up of the following parts, as shown in the figure below.
@@ -1018,30 +1005,15 @@ public static void main(String[] args) {
 
 ```java
 public static void main(String[] args) {
-    System.out.println("Hello Deepak...!!");
+    System.out.println("Hello Maheswaram...!!");
 }
 ```
 
 
 ---
 
-Understood. Same strict rules followed:
-
-* Content kept **exact**
-* No rewriting, no removal
-* No conclusion, no emojis
-* Only converted into **README.md Markdown**
-* Code shown exactly as code
-
-Here is your content formatted into Markdown:
-
----
-
 # Simple Java Hello Program
 
-In last tutorial, we have deeply explained the Structure of Java Hello Program. Now, below is the simple Java Hello Program.
-
----
 
 ## MainApp.java
 
@@ -1233,4 +1205,39 @@ Here "}" marks the end of the class definition.
 
 ---
 
+ How to compile and run Java Program using CMD ?
+ To compile and run a Java program using Notepad, follow these steps:
+
+Step 1: Set Up Java (if not already done)
+Install JDK (if not installed click here for steps)
+Verify the installation:
+Open a Command Prompt.
+Type java -version and javac -version. If both commands display version information, Java is set up correctly.
+Step 2: Write the Java Program
+Open Notepad.
+Write Java program code as below :
+MainApp.java
+public class MainApp
+{
+    public static void main(String[] args)
+    {
+        System.out.println("Hello Deepak");
+    }
+}
+Save the file with a .java extension. For example:
+File Name: MainApp.java
+Location: Save it in a directory, e.g., d:\JavaPrograms
+Step 3: Compile the Java Program
+Open a Command Prompt.
+Navigate to the directory where we have saved the .java file. For example:
+cd /d D:\JavaPrograms
+ cd means Change Directory.
+ The /d switch changes the drive while navigating to the directory.
+Compile the program using javac:
+javac MainApp.java
+If there is no error in the code then it will generate .class file in the same location where .java file is present. But if there is an error in code then it will display the error.
+Step 4: Run the Java Program
+Run the compiled program using the java command:
+java MainApp
+Output: Hello Deepak
 
