@@ -1289,3 +1289,708 @@ Hello Maheswaram
 ```
 
 ---
+
+# Deep Explanation of How Java Works Step by Step
+
+Below diagram visually explains the steps involved when writing, compiling, and executing a Java program using Notepad and CMD.
+
+How Java Works
+
+Below is detailed explanation:
+
+---
+
+## Step 1: Writing the Java Program
+
+We write our Java program in a plain text editor like Notepad.  
+The program is saved with a `.java` extension, e.g., `MainApp.java`.
+
+### MainApp.java
+```java
+public class MainApp
+{
+    public static void main(String[] args)
+    {
+        System.out.println("Hello Maheswaram");
+    }
+}
+````
+
+The `.java` file contains our Java source code, including a class with a `main` method (the entry point of the program).
+
+---
+
+## Step 2: Compilation
+
+In compilation phase, we open CMD, navigate to the directory where our `.java` file is located, and run the `javac` command:
+
+```bash
+javac MainApp.java
+```
+
+### What happens in compilation phase:
+
+* The Java Compiler (`javac`) reads the `.java` file.
+* It checks the code for syntax errors.
+* If there are no errors, it compiles the code into bytecode, a platform-independent intermediate representation.
+* The bytecode is saved in a `.class` file (e.g., `MainApp.class`).
+
+---
+
+## Step 3: Bytecode (.class file)
+
+The `.class` file contains the compiled bytecode, which can be executed on any system with a Java Virtual Machine (JVM).
+Bytecode ensures Java's **"Write Once, Run Anywhere"** principle because it is not tied to a specific machine.
+
+---
+
+## Step 4: Execution
+
+To run the program, we execute the `java` command in CMD:
+
+```bash
+java MainApp
+```
+
+Do not include the `.class` extension in this command.
+
+### What happens during execution phase:
+
+**JVM (Java Virtual Machine):**
+
+* The JVM reads the bytecode in the `.class` file.
+* It converts the bytecode into machine code that the operating system understands.
+* It executes the machine code line by line.
+* The `main` method is the entry point for execution.
+
+---
+
+## Step 5: Output
+
+If the program contains a print statement, such as:
+
+```java
+System.out.println("Hello Maheswaram");
+```
+
+The JVM executes it, and the output is displayed in the Command Prompt:
+
+```
+Hello Maheswaram
+```
+
+---
+
+# Introduction
+
+In Java, when we provide data like 101, Deepak, 91.4, etc., we need to specify that which type of data we are providing.  
+For example, we need to specify that 101 is of type int, Deepak is of type String, and 91.4 is of type float or double.  
+
+So, we can say that in Java, every piece of data has a specific type, known as a **"data type"**.
+
+---
+
+## Purpose of Data Types :
+
+Data types inform the compiler about the kind of data to be stored in a variable.
+
+For example: Declaring  
+```java
+int rollno = 101;
+````
+
+tells the compiler that `rollno` will store an integer.
+
+They help allocate the necessary memory for that data, ensuring that the program uses memory efficiently and that data is stored and processed correctly.
+
+For example:
+`int rollno` allocates 4 bytes of memory, same `float marks` will also store 4 bytes of memory.
+
+---
+
+## Data Types & Variables :
+
+Data is stored in variables, and each variable is assigned a specific data type.
+A variable's data type determines what kind of value it can hold and what operations can be performed on it.
+
+For example :
+
+```java
+int rollno = 101;
+// "int" is "data type"
+// "rollno" is "variable"
+// "101" is "literal" or "data" (value assigned to the variable)
+```
+
+---
+
+## Diagram :
+
+Data Type in Java
+
+---
+
+## Types of Data Types
+
+There are 2 types of Data Types in Java which are as below :-
+
+1. Primitive Data Types
+2. Non - Primitive Data Types
+
+Below is the diagram representing the data types in java....
+
+Data Types in Java
+
+---
+
+## 1. Primitive Data Types
+
+Primitive data types are pre-defined data types.
+
+There are total 8 primitive data types in Java i.e.
+boolean, char, byte, short, int, long, float and double.
+
+Primitive data types have fixed memory sizes for example `char` always occupies 2 byte of memory, `int` occupies 4 byte of memory etc.
+
+Click here to read primitive data types more deeply.
+
+---
+
+## 2. Non-Primitive Data Types
+
+Non-Primitive data types are user-defined or derived data types.
+
+Non-Primitive data types examples are Strings, Arrays, classes, interfaces etc.
+
+Non-Primitive data types does'nt have fixed memory sizes, they depends on the data or objects they reference.
+
+For example, a String object’s memory usage depends on the string's length.
+
+---
+
+# Introduction
+
+A variable is the name of memory location that can store data.  
+In simple words we can say, variables are the containers used to store the data values.  
+
+Real World Example :
+
+Variables in Java Real World Example
+
+Java Example :
+```java
+int rollno = 101;
+````
+
+## Variables in Java
+
+Here data i.e. 101 is stored in memory, variable name i.e. rollno points to that memory and variable has its data type i.e. int.
+
+So we can say that every variable has its :-
+
+* **Data Type** : The type of data that it stores; for example int, char, long, float etc.
+* **Variable Name** : The unique name within the scope which points to the memory location.
+* **Value** : The data assigned to the variable.
+
+## Variables in Java in Java
+
+More Points about Varibales in Java :
+
+Java is a statically typed language, so we must declare the type of data a variable will store.
+For example if we create variable rollno having data as 101, then we have to specify its data-type i.e. int.
+
+The value stored in a variable can change during program execution, which is why it is called a "variable“.
+
+For example we have one variable no having 10 value, we can change its data as below :
+
+```java
+int no = 10;
+System.out.println("no : "+no);     //output is no : 10
+
+no = no + 20;
+System.out.println("no : "+no);     //output is no : 30
+```
+
+## Types of Variables:
+
+There are 3 types of variables in Java which are as below :-
+
+1. Local Variable
+2. Instance Variable
+3. Static Variable
+
+## 1. Local Variables
+
+A variable defined within a block, method, or constructor is called a local variable.
+Local variables are created when the block or method is executed and destroyed when the block or method exits.
+The scope of a local variable is limited to the block in which it is declared; it cannot be accessed outside that block.
+We have to initialize the local variables before using it.
+
+## 2. Instance Variables
+
+A variable defined inside a class but outside any method, block, or constructor is called an instance variable.
+Instance variables are created when an object of the class is instantiated and destroyed when the object is garbage collected.
+Each object of the class has its own copy of instance variables, so their values can vary between objects.
+If we do not explicitly initialize the instance variables, then default values are assigned to them based on their data types (e.g., 0 for integers, null for objects).
+
+## 3. Static Variables
+
+A variable defined with the static keyword inside a class is called a static variable.
+Static variables are shared among all objects of the class; a single copy is created and stored in the memory.
+These variables are created when the class is loaded and destroyed when the class is unloaded.
+Static variables can be accessed without creating an object, using the class name.
+
+## Program for Local, Instance & Static Variables
+
+```java
+public class MainApp
+{
+    int no = 100;   //instance variable
+
+    static int sno = 200;   //static variable
+
+    void m1()
+    {
+        int no1 = 10;   //local variable
+        System.out.println("Result 1 : "+(no1 + no));
+        System.out.println("Result 2 : "+(no1 + no + sno));
+        //System.out.println("Result 3 : "+(no1 + no2));    //error as no2 is local variable which is present in m2() method and thus cannot be used outside m2() method
+    }
+
+    void m2()
+    {
+        int no2 = 20;   //local variable
+        System.out.println("Result 4 : "+(no2 + no));
+        System.out.println("Result 5 : "+(no2 + no + sno));
+        //System.out.println("Result 6 : "+(no2 + no1));    //error as no1 is local variable which is present in m1() method and thus cannot be used outside m1() method
+    }
+
+    static void m3()
+    {
+        int no3 = 30;   //local variable
+        //System.out.println("Result 7 : "+(no3 + no)); //error because no is instance variable which cannot be used inside static method
+        System.out.println("Result 8 : "+(no3 + sno));
+        System.out.println("Result 9 : "+(no1 + no2 + no3));    //error because no1 and no2 are local variables and cannot be used outside their method scope
+    }
+
+    public static void main(String[] args)
+    {
+        MainApp obj = new MainApp();
+        obj.m1();
+        obj.m2();
+
+        MainApp.m3();  //static method can be directly called by class name
+    }
+}
+```
+
+## Output:
+
+```
+Result 1 : 110
+Result 2 : 310
+Result 4 : 120
+Result 5 : 320
+Result 8 : 230
+```
+---
+
+
+
+# Introduction
+
+Literals are constants used in Java programs to represent fixed values.  
+They represent fixed values such as numeric values, characters, strings etc which are directly assigned to the variables.
+
+For example :
+```java
+int rollno = 101;
+````
+<img width="718" height="292" alt="image" src="https://github.com/user-attachments/assets/dd02be25-7262-418f-aa48-de0595c3a412" />
+
+
+## Variables in Java in Java
+
+## Types of Literals
+
+There are many types of literals in Java which are as below :-
+
+1. Integer Literal
+2. Floating-Point Literal
+3. Character Literal
+4. String Literal
+5. Boolean Literal
+6. Null Literal
+
+---
+
+## 1. Integer Literals
+
+Integer Literals represents the whole numbers and can be written in different number systems.
+
+Difference types of Integer Literals are :-
+
+* **Decimal (Base 10)**: These are regular whole numbers (e.g., `int num = 42;`).
+* **Binary (Base 2)**: These starts with `0b` or `0B` (e.g., `int bin = 0b1010;`).
+* **Octal (Base 8)**: These starts with `0` (e.g., `int oct = 010;`).
+* **Hexadecimal (Base 16)**: These starts with `0x` or `0X` (e.g., `int hex = 0x1F;`).
+
+### Rules for Integer Literals
+
+* By default, integer literals are of type `int`.
+* Use `L` or `l` to specify a long literal (e.g., `long bigNum = 123456789L;`).
+
+### Program for Integer Literal :
+
+```java
+public class IntegerLiteralsExample
+{
+    public static void main(String[] args)
+    {
+        // Decimal Literal (Base 10): Regular whole numbers
+        int decimal = 42;
+        System.out.println("Decimal Literal: " + decimal); // Output: 42
+
+        // Binary Literal (Base 2): Starts with 0b or 0B
+        int binary = 0b1010; // Binary for decimal 10
+        System.out.println("Binary Literal: " + binary); // Output: 10
+
+        // Octal Literal (Base 8): Starts with 0
+        int octal = 010; // Octal for decimal 8
+        System.out.println("Octal Literal: " + octal); // Output: 8
+
+        // Hexadecimal Literal (Base 16): Starts with 0x or 0X
+        int hexadecimal = 0x1F; // Hexadecimal for decimal 31
+        System.out.println("Hexadecimal Literal: " + hexadecimal); // Output: 31
+
+        // Long Literal: Specified with L or l at the end
+        long bigNum = 123456789L;
+        System.out.println("Long Literal: " + bigNum); // Output: 123456789
+
+        // Example of usage of all types together in calculations
+        int sum = decimal + binary + octal + hexadecimal;
+        System.out.println("Sum of all literals: " + sum); // Output: 91
+    }
+}
+```
+
+### Output:
+
+```
+Decimal Literal: 42
+Binary Literal: 10
+Octal Literal: 8
+Hexadecimal Literal: 31
+Long Literal: 123456789
+Sum of all literals: 91
+```
+
+---
+
+## 2. Floating-Point Literals
+
+Floating-Point Literals represents the numbers with decimal points.
+
+Difference types of Floating-Point Literals are :-
+
+* **Float**: These ends with `F` or `f` suffix (e.g., `float pi = 3.14F;`).
+* **Double**: These are the default type for decimal literals (e.g., `double e = 2.718;`).
+
+### Rules for Floating-Point Literals
+
+* Use scientific notation for very large or small numbers (e.g., `double largeNum = 1.23e4;`).
+
+### Program for Floating-Point Literal :
+
+```java
+public class FloatingPointLiteralsExample
+{
+    public static void main(String[] args)
+    {
+        // Float Literal: Ends with F or f
+        float pi = 3.14F;
+        System.out.println("Float Literal (pi): " + pi);
+
+        // Double Literal: Default type for decimal numbers
+        double e = 2.718;
+        System.out.println("Double Literal (e): " + e);
+
+        // Scientific Notation: Large number
+        double largeNum = 1.23e4;
+        System.out.println("Scientific Notation (largeNum): " + largeNum);
+
+        // Scientific Notation: Small number
+        double smallNum = 4.56e-3;
+        System.out.println("Scientific Notation (smallNum): " + smallNum);
+
+        // Precision with double
+        double preciseNum = 3.14159265359;
+        System.out.println("Double with precision (preciseNum): " + preciseNum);
+    }
+}
+```
+
+### Output:
+
+```
+Float Literal (pi): 3.14
+Double Literal (e): 2.718
+Scientific Notation (largeNum): 12300.0
+Scientific Notation (smallNum): 0.00456
+Double with precision (preciseNum): 3.14159265359
+```
+
+---
+
+## 3. Character Literals
+
+Character Literals represent a single character enclosed in single quotes (`'`).
+
+Examples of Character Literals are :-
+
+```java
+char letter = 'A';
+char digit = '7';
+char specialChar = '@';
+```
+
+### Rules for Character Literals
+
+* Character Literals must represent a single Unicode character.
+* Escape sequences can be used for special characters:
+  `\n`, `\t`, `\'`, `\\` etc.
+
+### Program for Character Literal :
+
+```java
+public class CharacterLiteralsExample
+{
+    public static void main(String[] args)
+    {
+        char letter = 'A';
+        System.out.println("Character Literal (letter): " + letter);
+
+        char digit = '7';
+        System.out.println("Character Literal (digit): " + digit);
+
+        char specialChar = '@';
+        System.out.println("Character Literal (specialChar): " + specialChar);
+
+        char newlineChar = '\n';
+        char tabChar = '\t';
+        char singleQuoteChar = '\'';
+        char backslashChar = '\\';
+
+        System.out.println("Escape Sequence (newline):" + newlineChar + "This is after newline.");
+        System.out.println("Escape Sequence (tab):" + tabChar + "This is after tab.");
+        System.out.println("Escape Sequence (single quote): " + singleQuoteChar + "This is single quote.");
+        System.out.println("Escape Sequence (backslash): " + backslashChar + "This is backslash.");
+    }
+}
+```
+
+### Output:
+
+```
+Character Literal (letter): A
+Character Literal (digit): 7
+Character Literal (specialChar): @
+Escape Sequence (newline):
+This is after newline.
+Escape Sequence (tab):	This is after tab.
+Escape Sequence (single quote): 'This is single quote.
+Escape Sequence (backslash): \This is backslash.
+```
+
+---
+
+## 4. String Literals
+
+String Literals represent a sequence of characters enclosed in double quotes (`"`).
+
+Examples of String Literals are :-
+
+```java
+String greeting = "Hello, World!";
+String empty = "";
+```
+
+### Rules for String Literals
+
+* Strings are immutable in Java.
+* Can include escape sequences (e.g., `"Line1\nLine2"`).
+
+### Program for String Literal :
+
+```java
+public class StringLiteralsExample
+{
+    public static void main(String[] args)
+    {
+        String greeting = "Hello, World!";
+        System.out.println("String Literal (greeting): " + greeting);
+
+        String empty = "";
+        System.out.println("String Literal (empty): '" + empty + "'");
+
+        String multiLineString = "Line1\nLine2";
+        System.out.println("String with Escape Sequences (multiLineString): " + multiLineString);
+
+        String quotedString = "He said, \"Hello!\"";
+        System.out.println("String with Escape Sequences (quotedString): " + quotedString);
+
+        String tabbedString = "Item1\tItem2";
+        System.out.println("String with Escape Sequences (tabbedString): " + tabbedString);
+    }
+}
+```
+
+### Output:
+
+```
+String Literal (greeting): Hello, World!
+String Literal (empty): ''
+String with Escape Sequences (multiLineString): Line1
+Line2
+String with Escape Sequences (quotedString): He said, "Hello!"
+String with Escape Sequences (tabbedString): Item1	Item2
+```
+
+---
+
+## 5. Boolean Literals
+
+Boolean Literals represent one of two values: `true` or `false`.
+
+Examples of Boolean Literals are :-
+
+```java
+boolean isJavaFun = true;
+boolean isHot = false;
+```
+
+### Rules for Boolean Literals
+
+* Boolean Literals are used for conditional expressions and control flow.
+
+### Program for Boolean Literal :
+
+```java
+public class BooleanLiteralsExample
+{
+    public static void main(String[] args)
+    {
+        boolean isJavaFun = true;
+        boolean isHot = false;
+
+        System.out.println("Is Java Fun? " + isJavaFun);
+        System.out.println("Is it Hot? " + isHot);
+
+        if (isJavaFun) {
+            System.out.println("Java is fun!");
+        } else {
+            System.out.println("Java is not fun!");
+        }
+
+        if (!isHot) {
+            System.out.println("It is not hot today!");
+        } else {
+            System.out.println("It is hot today!");
+        }
+    }
+}
+```
+
+### Output:
+
+```
+Is Java Fun? true
+Is it Hot? false
+Java is fun!
+It is not hot today!
+```
+
+---
+
+## 6. Null Literal
+
+Null Literal represents the absence of a value for an object reference.
+
+Example of Null Literal is :-
+
+```java
+String str = null;
+```
+
+### Rules for Null Literals
+
+* `null` can only be assigned to reference types, not primitive data types.
+
+### Program for Null Literal :
+
+```java
+public class NullLiteralExample
+{
+    public static void main(String[] args)
+    {
+        String str = null;
+
+        if (str == null)
+        {
+            System.out.println("The string is null, no value assigned.");
+        }
+        else
+        {
+            System.out.println("The string has a value: " + str);
+        }
+    }
+}
+```
+
+### Output:
+
+```
+The string is null, no value assigned.
+```
+
+---
+
+## Underscores in Numeric Literals (Java 7+)
+
+We can use underscores in numeric literals to improve readability.
+
+For example :-
+
+```java
+int million = 1_000_000;
+double pi = 3.141_592_653;
+```
+
+### Rules to use Underscores in Numeric Literals
+
+* Underscores cannot be used at the start or end of the literal, or next to a decimal point.
+
+### Program for Underscores in Numeric Literals :
+
+```java
+public class NumericLiteralsWithUnderscore
+{
+    public static void main(String[] args)
+    {
+        int million = 1_000_000;
+        double pi = 3.141_592_653;
+
+        System.out.println("Million: " + million);
+        System.out.println("Pi value: " + pi);
+    }
+}
+```
+
+### Output:
+
+```
+Million: 1000000
+Pi value: 3.141592653
+```
+
+
