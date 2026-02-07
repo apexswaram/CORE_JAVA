@@ -1205,39 +1205,87 @@ Here "}" marks the end of the class definition.
 
 ---
 
- How to compile and run Java Program using CMD ?
- To compile and run a Java program using Notepad, follow these steps:
 
-Step 1: Set Up Java (if not already done)
+# How to Compile and Run Java Program Using CMD ?
+
+To compile and run a Java program using Notepad, follow these steps:
+
+---
+
+## Step 1: Set Up Java (if not already done)
+
 Install JDK (if not installed click here for steps)
-Verify the installation:
-Open a Command Prompt.
-Type java -version and javac -version. If both commands display version information, Java is set up correctly.
-Step 2: Write the Java Program
-Open Notepad.
-Write Java program code as below :
-MainApp.java
+
+### Verify the installation:
+- Open a Command Prompt.
+- Type `java -version` and `javac -version`.
+- If both commands display version information, Java is set up correctly.
+
+---
+
+## Step 2: Write the Java Program
+
+- Open Notepad.
+- Write Java program code as below :
+
+### MainApp.java
+
+```java
 public class MainApp
 {
     public static void main(String[] args)
     {
-        System.out.println("Hello Deepak");
+        System.out.println("Hello Maheswaram");
     }
 }
-Save the file with a .java extension. For example:
-File Name: MainApp.java
-Location: Save it in a directory, e.g., d:\JavaPrograms
-Step 3: Compile the Java Program
-Open a Command Prompt.
-Navigate to the directory where we have saved the .java file. For example:
-cd /d D:\JavaPrograms
- cd means Change Directory.
- The /d switch changes the drive while navigating to the directory.
-Compile the program using javac:
-javac MainApp.java
-If there is no error in the code then it will generate .class file in the same location where .java file is present. But if there is an error in code then it will display the error.
-Step 4: Run the Java Program
-Run the compiled program using the java command:
-java MainApp
-Output: Hello Deepak
+````
 
+* Save the file with a `.java` extension.
+
+**For example:**
+
+* File Name: `MainApp.java`
+* Location: Save it in a directory, e.g., `d:\JavaPrograms`
+
+---
+
+## Step 3: Compile the Java Program
+
+* Open a Command Prompt.
+* Navigate to the directory where we have saved the `.java` file.
+
+**For example:**
+
+```bash
+cd /d D:\JavaPrograms
+```
+
+* `cd` means Change Directory.
+* The `/d` switch changes the drive while navigating to the directory.
+
+### Compile the program using javac:
+
+```bash
+javac MainApp.java
+```
+
+If there is no error in the code then it will generate `.class` file in the same location where `.java` file is present.
+But if there is an error in code then it will display the error.
+
+---
+
+## Step 4: Run the Java Program
+
+Run the compiled program using the java command:
+
+```bash
+java MainApp
+```
+
+**Output:**
+
+```
+Hello Maheswaram
+```
+
+---
