@@ -1994,3 +1994,162 @@ Pi value: 3.141592653
 ```
 
 
+---
+
+# Introduction
+
+Operators are the special symbols used to perform an operation on one or more operands.
+
+For example :
+```java
+int no1 = 10, no2 = 20;
+int res = no1 + no2; // '+' & '=' are operators and no1 and no2 are operands
+````
+
+Below is the list of all operators present in Java :-
+
+---
+
+## Arithmetic Operators
+
+**Description**
+Perform basic mathematical operations.
+
+**Examples**
+
+* `+` (Addition operator)
+* `-` (Subtraction operator)
+* `*` (Multiplication operator)
+* `/` (Division operator)
+* `%` (Modulus operator)
+
+Arithmetic Operators Explanation & Program
+
+---
+
+## Assignment Operators
+
+**Description**
+Assign values to variables.
+
+**Examples**
+
+* `=` (Assignment operator)
+* `+=` (Addition assignment operator)
+* `-=` (Subtraction assignment operator)
+* `*=` (Multiplication assignment operator)
+* `/=` (Division assignment operator)
+* `%=` (Modulus assignment operator)
+
+Assignment Operators Explanation & Program
+
+---
+
+## Relational Operators
+
+**Description**
+Compare two values and return a boolean result.
+
+**Examples**
+
+* `==` (Equal to operator)
+* `!=` (Not equal to operator)
+* `<` (Less than operator)
+* `>` (Greater than operator)
+* `<=` (Less than or equal to operator)
+* `>=` (Greater than or equal to operator)
+
+Relational Operators Explanation & Program
+
+---
+
+## Logical Operators
+
+**Description**
+Perform logical operations on boolean expressions.
+
+**Examples**
+
+* `&&` (Logical AND operator)
+* `||` (Logical OR operator)
+* `!` (Logical NOT operator)
+
+Logical Operators Explanation & Program
+
+---
+
+## Ternary Operator
+
+**Description**
+A shorthand for an if-else condition.
+
+**Example**
+
+```java
+condition ? value1 : value2
+```
+
+Ternary Operator Explanation & Program
+
+---
+
+## Unary Operators
+
+**Description**
+Operate on a single operand.
+
+**Examples**
+
+* `+` (Unary plus operator)
+* `-` (Unary minus operator)
+* `++` (Increment operator)
+* `--` (Decrement operator)
+* `!` (Logical NOT operator)
+
+Unary Operators Explanation & Program
+
+---
+
+## Bitwise Operators
+
+**Description**
+Operate on binary representations of integers.
+
+**Examples**
+
+* `&` (Bitwise AND operator)
+* `|` (Bitwise OR operator)
+* `^` (Bitwise XOR operator)
+* `~` (Bitwise NOT operator)
+
+Bitwise Operators Explanation & Program
+
+---
+
+## Shift Operators
+
+**Description**
+Shift the bits of a number to the left or right.
+
+**Examples**
+
+* `<<` (Left shift operator)
+* `>>` (Right shift operator)
+* `>>>` (Unsigned right shift operator)
+
+Shift Operators Explanation & Program
+
+---
+
+## Instanceof Operator
+
+**Description**
+Checks whether an object is an instance of a specific class or subclass.
+
+**Example**
+
+```java
+object instanceof ClassName
+```
+
+Instanceof Operators Explanation & Program
