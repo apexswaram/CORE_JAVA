@@ -837,3 +837,197 @@ The JVM interprets or compiles the bytecode into native machine code that can be
 
 ---
 
+
+Understood. Same rules locked in and followed exactly:
+
+* Your content stays **exact**
+* No words changed, no meaning altered
+* No conclusion, no emojis
+* Only formatting into **README.md Markdown**
+* Straight, human, clean structure
+
+Here is your content converted **as-is** into Markdown:
+
+---
+
+# Structure of Java Program
+
+When writing a program in any programming language, it's important to follow a basic structure recommended by experts. Typically, a Java program is made up of the following parts, as shown in the figure below.
+
+Structure of Java Program
+
+This structure if explained below :-
+
+---
+
+## 1. Package Declaration Statement (Optional)
+
+The package declaration specifies the package name for the Java class. It is the first statement in a Java program (if present).
+
+**Purpose :**  
+Package statement is used to group related classes and organize the code.
+
+**Syntax :**
+```java
+package packageName;
+````
+
+**Example :**
+
+```java
+package com.example.myapp;
+```
+
+---
+
+## 2. Import Statements (If Necessary)
+
+The import statement is used to include other Java classes or packages in the program, enabling the use of pre-defined classes (e.g., java.util.Scanner).
+
+**Purpose :**
+Import statement is used to import built-in or user-defined classes for reusability.
+
+**Syntax :**
+
+```java
+import packageName.ClassName;  // Imports a specific class
+import packageName.*;          // Imports all classes in the package
+```
+
+**Example :**
+
+```java
+import java.util.Scanner;  // Imports Scanner class
+import java.util.*;        // Imports all classes in java.util package
+```
+
+---
+
+## 3. Class Definition Statements
+
+The class is the fundamental building block of a Java program. Every Java program must have at least one class.
+
+**Syntax :**
+
+```java
+class ClassName {
+    // Class body
+}
+```
+
+**Example :**
+
+```java
+public class Car {
+    // Class members go here
+}
+```
+
+We can create any number of classes in one program.
+There should be atleast one main class which should contains the main() method as main() method is the entry point for the program.
+
+A class can include the following components which are known as **"Class Members"**:
+
+* Variables : Also called fields or attributes, which hold data.
+* Constructors : Used to initialize objects.
+* Methods : Define behaviors or actions of the class.
+* etc...
+
+---
+
+### 3.1 Variables Declaration Statements (Optional) [Class Members]
+
+Variables are used to store data and are declared within the class (as fields) or within methods (local variables).
+
+**Syntax :**
+
+```java
+dataType variableName = value; // Field or local variable declaration
+```
+
+**Example :**
+
+```java
+String model = "Tata Nexon";    // Field
+int year = 2020;               // Field
+```
+
+---
+
+### 3.2 Constructors Declaration Statements (Optional) [Class Members]
+
+Constructor is a special method having same name as that of class name but should name have any return type.
+
+A constructor initializes objects of a class. If no constructor is provided, Java supplies a default constructor.
+
+**Syntax :**
+
+```java
+ClassName() {
+    // Constructor body
+}
+```
+
+**Example :**
+
+```java
+public Car() {
+    System.out.println("Constructor called!");
+}
+```
+
+---
+
+### 3.3 Methods Declaration Statements [Class Members]
+
+Methods are the set of codes which performs a particular task.
+We can create any number of methods in one class.
+
+**Syntax :**
+
+```java
+accessModifier returnType methodName(parameters) {
+    // Method body
+}
+```
+
+**Example :**
+
+```java
+public void start() {
+    System.out.println("Car Started");
+}
+```
+
+---
+
+### 3.4 Main Method [Class Members]
+
+main() method is the entry point for java program from where program execution starts.
+main() method can have different syntax but below is the standard syntax that we should use.
+
+**Syntax :**
+
+```java
+public static void main(String[] args) {
+    // Code to execute
+}
+```
+
+**Example :**
+
+```java
+public static void main(String[] args) {
+    System.out.println("Hello Deepak...!!");
+}
+```
+
+```
+
+---
+
+```
+
+---
+
+
