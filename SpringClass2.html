@@ -1,0 +1,852 @@
+<style>
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Theme variables (mobile-first) */
+  :root{
+    --bg-gradient-1: linear-gradient(135deg,#0f172a 0%, #081334 50%, #032029 100%);
+    --card-bg: rgba(255,255,255,0.04);
+    --card-glow: rgba(255,255,255,0.02);
+    --accent: #5DCAA5;
+    --muted: rgba(255,255,255,0.7);
+    --text: #E6EEF3;
+    --highlight: rgba(93,202,165,0.12);
+    --border: rgba(255,255,255,0.06);
+    --glass-blur: 6px;
+    --font-sans: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", monospace;
+    --border-radius-sm:6px;
+    --border-radius-md:10px;
+    --border-radius-lg:14px;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    color: var(--text);
+    background: var(--bg-gradient-1);
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+    padding: 18px;
+    line-height:1.5;
+  }
+
+  /* Page wrapper to center content on large screens */
+  .notes{
+    max-width:1000px;
+    margin:0 auto;
+    padding:18px;
+  }
+
+  /* Card style for sections/header to improve readability */
+  .class-header, .section{
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    box-shadow: 0 6px 18px rgba(2,6,23,0.6), 0 1px 0 var(--card-glow) inset;
+    border: 1px solid var(--border);
+  }
+
+  /* Soft highlight for paragraphs and important text */
+  .speak-box, .code-block, .tip-box, .warn-box, .step-content{
+    background: linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    padding:12px;
+    border-radius: var(--border-radius-md);
+  }
+
+  /* Highlight important inline text for easier reading */
+  .highlight{ background: var(--highlight); padding: 0.12rem 0.28rem; border-radius:4px; }
+
+  /* Mobile-first typography */
+  h1{ font-size:20px; }
+  h3{ font-size:15px; }
+
+  /* Responsive adjustments for larger screens */
+  @media (min-width: 768px){
+    body{ padding:28px; }
+    .notes{ padding:28px; }
+    h1{ font-size:24px; }
+    .section-header{ padding:14px 18px; }
+    .section-body{ padding:20px; }
+    .code-block{ font-size:13px; }
+  }
+
+  @media (min-width: 1100px){
+    .notes{ max-width:1100px; }
+  }
+
+  .notes {
+    padding: 1rem 0;
+    max-width: 100%;
+  }
+
+  .class-header {
+    background: var(--color-background-secondary);
+    border: 1px solid var(--color-border-tertiary);
+    border-radius: var(--border-radius-lg);
+    padding: 1.2rem 1.4rem;
+    margin-bottom: 1.2rem;
+  }
+
+  .class-header h1 {
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--color-text-primary);
+    margin-bottom: 4px;
+  }
+
+  .class-header p {
+    font-size: 13px;
+    color: var(--color-text-secondary);
+  }
+
+  .meta-row {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 10px;
+  }
+
+  .badge {
+    font-size: 12px;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-weight: 500;
+  }
+
+  .badge-blue {
+    background: #E6F1FB;
+    color: #0C447C;
+  }
+
+  .badge-green {
+    background: #EAF3DE;
+    color: #27500A;
+  }
+
+  .badge-amber {
+    background: #FAEEDA;
+    color: #633806;
+  }
+
+  .section {
+    margin-bottom: 1.2rem;
+    border: 1px solid var(--color-border-tertiary);
+    border-radius: var(--border-radius-lg);
+    overflow: hidden;
+  }
+
+  .section-header {
+    padding: 10px 16px;
+    font-size: 13px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    background: var(--color-background-secondary);
+  }
+
+  .section-header:hover {
+    background: var(--color-background-tertiary);
+  }
+
+  .section-body {
+    padding: 16px;
+    border-top: 1px solid var(--color-border-tertiary);
+  }
+
+  .step {
+    margin-bottom: 1rem;
+  }
+
+  .step-label {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--color-text-secondary);
+    margin-bottom: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .step-content {
+    font-size: 14px;
+    color: var(--color-text-primary);
+    line-height: 1.7;
+  }
+
+  .speak-box {
+    background: var(--color-background-tertiary);
+    border-left: 3px solid #5DCAA5;
+    border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0;
+    padding: 10px 14px;
+    margin: 8px 0;
+    font-size: 14px;
+    color: var(--color-text-primary);
+    line-height: 1.6;
+    font-style: italic;
+  }
+
+  .code-block {
+    background: var(--color-background-tertiary);
+    border: 1px solid var(--color-border-tertiary);
+    border-radius: var(--border-radius-md);
+    padding: 12px 14px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--color-text-primary);
+    line-height: 1.7;
+    overflow-x: auto;
+    margin: 8px 0;
+    white-space: pre;
+  }
+
+  .point-row {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    margin: 6px 0;
+    font-size: 14px;
+    color: var(--color-text-primary);
+    line-height: 1.6;
+  }
+
+  .bullet {
+    color: #1D9E75;
+    font-size: 16px;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .compare-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    margin: 8px 0;
+  }
+
+  .compare-table th {
+    background: var(--color-background-secondary);
+    padding: 8px 12px;
+    text-align: left;
+    font-weight: 500;
+    border: 1px solid var(--color-border-tertiary);
+    color: var(--color-text-primary);
+  }
+
+  .compare-table td {
+    padding: 8px 12px;
+    border: 1px solid var(--color-border-tertiary);
+    color: var(--color-text-primary);
+    vertical-align: top;
+  }
+
+  .compare-table tr:nth-child(even) td {
+    background: var(--color-background-secondary);
+  }
+
+  .tip-box {
+    background: #E6F1FB;
+    border: 1px solid #B5D4F4;
+    border-radius: var(--border-radius-md);
+    padding: 10px 14px;
+    font-size: 13px;
+    color: #0C447C;
+    margin: 8px 0;
+  }
+
+  .warn-box {
+    background: #FAEEDA;
+    border: 1px solid #FAC775;
+    border-radius: var(--border-radius-md);
+    padding: 10px 14px;
+    font-size: 13px;
+    color: #633806;
+    margin: 8px 0;
+  }
+
+  .section-num {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 500;
+    background: #E6F1FB;
+    color: #0C447C;
+    flex-shrink: 0;
+  }
+
+  .toggle-icon {
+    margin-left: auto;
+    font-size: 16px;
+    transition: transform 0.2s;
+  }
+
+  .collapsed .section-body {
+    display: none;
+  }
+
+  .collapsed .toggle-icon {
+    transform: rotate(-90deg);
+  }
+
+  h3 {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--color-text-primary);
+    margin: 12px 0 6px;
+  }
+
+  .time-note {
+    font-size: 12px;
+    color: var(--color-text-secondary);
+    margin-top: 4px;
+  }
+
+  .arch-row {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin: 10px 0;
+  }
+
+  .arch-layer {
+    border-radius: 6px;
+    padding: 8px 14px;
+    font-size: 13px;
+  }
+
+  .layer-1 {
+    background: #E6F1FB;
+    color: #0C447C;
+    border: 1px solid #B5D4F4;
+  }
+
+  .layer-2 {
+    background: #EAF3DE;
+    color: #27500A;
+    border: 1px solid #C0DD97;
+  }
+
+  .layer-3 {
+    background: #FAEEDA;
+    color: #633806;
+    border: 1px solid #FAC775;
+  }
+
+  .layer-4 {
+    background: #EEEDFE;
+    color: #3C3489;
+    border: 1px solid #CECBF6;
+  }
+
+  .layer-5 {
+    background: #E1F5EE;
+    color: #085041;
+    border: 1px solid #9FE1CB;
+  }
+
+  .arch-label {
+    font-weight: 500;
+    font-size: 12px;
+  }
+
+  .arch-sub {
+    font-size: 11px;
+    opacity: 0.8;
+    margin-top: 2px;
+  }
+</style>
+
+
+
+<div class="notes">
+  <div class="class-header">
+    <h1>Class 2 — First Spring Application (Full Setup + Code)</h1>
+    <p>100% Hands-on class — Setup Eclipse, Add JARs, Write Code, Run Output</p>
+    
+  </div>
+
+  <!-- Section 1 — Quick Recap -->
+  <div class="section" id="s1">
+    <div class="section-header" onclick="toggle('s1')">
+      <span class="section-num">1</span>
+      <span>Quick Recap of Class 1</span>
+      <span class="toggle-icon">▾</span>
+    </div>
+    <div class="section-body">
+      <div class="speak-box">"Before we start coding, let me quickly check what you remember from Class 1."</div>
+      <div class="point-row"><span class="bullet">Q1.</span><span>What is Spring Framework and who created it?</span>
+      </div>
+      <div class="point-row"><span class="bullet">Q2.</span><span>What is IoC — who controls object creation in
+          Spring?</span></div>
+      <div class="point-row"><span class="bullet">Q3.</span><span>What is a Bean in Spring?</span></div>
+      
+    </div>
+  </div>
+
+  <!-- Section 2 — Project Setup -->
+  <div class="section" id="s2">
+    <div class="section-header" onclick="toggle('s2')">
+      <span class="section-num">2</span>
+      <span>Step 1 — Create Java Project in Eclipse </span>
+      <span class="toggle-icon">▾</span>
+    </div>
+    <div class="section-body">
+      <div class="speak-box">"We are NOT using Maven. We will use a simple Java project and add Spring JARs
+        manually. This way you understand what files Spring needs."
+      </div>
+
+      <h3>Steps to create project</h3>
+      <div class="step-row">
+        <span class="step-num">1</span>
+        <div class="step-content">Open Eclipse IDE → File → New → Java Project</div>
+      </div>
+      <div class="step-row">
+        <span class="step-num">2</span>
+        <div class="step-content">Project name: <span class="inline-code">SpringFirst</span> → Click Finish</div>
+      </div>
+      <div class="step-row">
+        <span class="step-num">3</span>
+        <div class="step-content">Right click on project → New → Package → Name: <span class="inline-code">demo</span>
+        </div>
+      </div>
+      <div class="step-row">
+        <span class="step-num">4</span>
+        <div class="step-content">Right click on <span class="inline-code">src</span> folder → New → Folder → Name:
+          <span class="inline-code">lib</span> (we will put JARs here)</div>
+      </div>
+
+      <h3>Required Spring JAR files</h3>
+      <div class="speak-box">"Spring needs certain JAR files to work. Download these from spring.io or I will share the
+        link. Copy all JARs into the lib folder."</div>
+      <div class="jar-list">
+        <div class="jar-item"><span class="jar-icon">📦</span>spring-core-5.x.x.jar</div>
+        <div class="jar-item"><span class="jar-icon">📦</span>spring-beans-5.x.x.jar</div>
+        <div class="jar-item"><span class="jar-icon">📦</span>spring-context-5.x.x.jar</div>
+        <div class="jar-item"><span class="jar-icon">📦</span>spring-expression-5.x.x.jar</div>
+        <div class="jar-item"><span class="jar-icon">📦</span>commons-logging-1.x.x.jar — (required for Spring to log
+          messages)</div>
+      </div>
+
+      <h3>Add JARs to Build Path</h3>
+      <div class="step-row">
+        <span class="step-num">1</span>
+        <div class="step-content">Select all JARs in lib folder → Right click → Build Path → Add to Build Path</div>
+      </div>
+      <div class="step-row">
+        <span class="step-num">2</span>
+        <div class="step-content">You will see JARs appear under <span class="inline-code">Referenced Libraries</span>
+          in project explorer</div>
+      </div>
+      <div class="success-box">Setup is done! Now we are ready to write our first Spring program.</div>
+    </div>
+  </div>
+
+  <!-- Section 3 — Project Structure -->
+  <div class="section" id="s3">
+    <div class="section-header" onclick="toggle('s3')">
+      <span class="section-num">3</span>
+      <span>Project Structure — What files we will create </span>
+      <span class="toggle-icon">▾</span>
+    </div>
+    <div class="section-body">
+      <div class="speak-box">"Before writing any code, let me show you the structure of our project. We need exactly 3
+        files to run a Spring application."</div>
+
+      <div class="flow-steps">
+        <div class="flow-step">
+          <div class="flow-step-num">1</div>
+          <div><strong>Student.java</strong> — Our Bean class (simple Java class with name and address)</div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-step-num">2</div>
+          <div><strong>applicationContext.xml</strong> — Configuration file (tells Spring how to create the bean)</div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-step-num">3</div>
+          <div><strong>Test.java</strong> — Main class (loads Spring container and gets the bean)</div>
+        </div>
+      </div>
+
+      <div class="speak-box">"Student.java is our model. XML file is our configuration. Test.java is where we run
+        everything. Spring reads the XML, creates the Student object and gives it to us in Test.java."</div>
+
+      <table class="compare-table">
+        <tr>
+          <th>File</th>
+          <th>Location</th>
+          <th>Purpose</th>
+        </tr>
+        <tr>
+          <td>Student.java</td>
+          <td>src/demo/Student.java</td>
+          <td>Bean class — data fields + getters + setters</td>
+        </tr>
+        <tr>
+          <td>applicationContext.xml</td>
+          <td>src/applicationContext.xml</td>
+          <td>Bean definition — tells Spring what to create</td>
+        </tr>
+        <tr>
+          <td>Test.java</td>
+          <td>src/demo/Test.java</td>
+          <td>Main method — loads container + runs program</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- Section 4 — Student.java -->
+  <div class="section" id="s4">
+    <div class="section-header" onclick="toggle('s4')">
+      <span class="section-num">4</span>
+      <span>Step 2 — Write Student.java (Bean Class) </span>
+      <span class="toggle-icon">▾</span>
+    </div>
+    <div class="section-body">
+      <div class="speak-box">"First we create the Bean class. This is just a normal Java class — nothing Spring-specific
+        here. We have private fields, getter and setter methods, and a display method."</div>
+
+      <div class="file-label">src/demo/Student.java</div>
+      <div class="code-block"><span class="keyword">package</span> demo;
+
+        <span class="keyword">public class</span> <span class="classname">Student</span> {
+
+        <span class="comment">// Step 1: private fields</span>
+        <span class="keyword">private</span> String name;
+        <span class="keyword">private</span> String address;
+
+        <span class="comment">// Step 2: getter for name</span>
+        <span class="keyword">public</span> String getName() {
+        <span class="keyword">return</span> name;
+        }
+
+        <span class="comment">// Step 3: setter for name</span>
+        <span class="keyword">public void</span> setName(String name) {
+        <span class="keyword">this</span>.name = name;
+        }
+
+        <span class="comment">// Step 4: getter for address</span>
+        <span class="keyword">public</span> String getAddress() {
+        <span class="keyword">return</span> address;
+        }
+
+        <span class="comment">// Step 5: setter for address</span>
+        <span class="keyword">public void</span> setAddress(String address) {
+        <span class="keyword">this</span>.address = address;
+        }
+
+        <span class="comment">// Step 6: method to display details</span>
+        <span class="keyword">public void</span> showdetails() {
+        System.out.println(<span class="string">"Name = "</span> + name);
+        System.out.println(<span class="string">"Address = "</span> + address);
+        }
+        }
+      </div>
+
+      <h3>Explain line by line to students</h3>
+      <div class="point-row"><span class="bullet">→</span><span><span class="inline-code">package demo</span> — this
+          class belongs to demo package</span></div>
+      <div class="point-row"><span class="bullet">→</span><span><span class="inline-code">private String name</span> —
+          field is private, cannot access directly from outside</span></div>
+      <div class="point-row"><span class="bullet">→</span><span><span class="inline-code">getName()</span> — getter
+          returns the value of name</span></div>
+      <div class="point-row"><span class="bullet">→</span><span><span class="inline-code">setName()</span> — setter sets
+          the value into name — Spring uses this to inject values</span></div>
+      <div class="point-row"><span class="bullet">→</span><span><span class="inline-code">showdetails()</span> — just
+          prints the values so we can see output</span></div>
+
+      <div class="tip-box">Ask students: "Why do we need setters?" — Answer: Because Spring uses setter injection to put
+        values into the fields. Without setters, Spring cannot inject.</div>
+    </div>
+  </div>
+
+  <!-- Section 5 — applicationContext.xml -->
+  <div class="section" id="s5">
+    <div class="section-header" onclick="toggle('s5')">
+      <span class="section-num">5</span>
+      <span>Step 3 — Write applicationContext.xml </span>
+      <span class="toggle-icon">▾</span>
+    </div>
+    <div class="section-body">
+      <div class="speak-box">"This is the most important file in Spring. This XML file tells Spring — what class to
+        create, what name to give it, and what values to put inside it. Spring reads this file and creates our beans."
+      </div>
+
+      <h3>How to create XML file in Eclipse</h3>
+      <div class="step-row">
+        <span class="step-num">1</span>
+        <div class="step-content">Right click on <span class="inline-code">src</span> folder → New → File</div>
+      </div>
+      <div class="step-row">
+        <span class="step-num">2</span>
+        <div class="step-content">File name: <span class="inline-code">applicationContext.xml</span> → Click Finish
+        </div>
+      </div>
+
+      <div class="file-label">src/applicationContext.xml</div>
+      <div class="code-block"><span class="comment">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
+        &lt;beans
+        xmlns=<span class="string">"http://www.springframework.org/schema/beans"</span>
+        xmlns:xsi=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span>
+        xsi:schemaLocation=<span class="string">"http://www.springframework.org/schema/beans
+          http://www.springframework.org/schema/beans/spring-beans.xsd"</span>&gt;
+
+        <span class="comment">&lt;!-- Bean 1: Student with name Rahul --&gt;</span>
+        &lt;bean id=<span class="string">"s1"</span> class=<span class="string">"demo.Student"</span>&gt;
+        &lt;property name=<span class="string">"name"</span> value=<span class="string">"Rahul"</span> /&gt;
+        &lt;property name=<span class="string">"address"</span> value=<span class="string">"Pune"</span> /&gt;
+        &lt;/bean&gt;
+
+        <span class="comment">&lt;!-- Bean 2: Another Student --&gt;</span>
+        &lt;bean id=<span class="string">"s2"</span> class=<span class="string">"demo.Student"</span>&gt;
+        &lt;property name=<span class="string">"name"</span> value=<span class="string">"Priya"</span> /&gt;
+        &lt;property name=<span class="string">"address"</span> value=<span class="string">"Mumbai"</span> /&gt;
+        &lt;/bean&gt;
+
+        &lt;/beans&gt;
+      </div>
+
+      <h3>Explain every tag line by line</h3>
+      <table class="compare-table">
+        <tr>
+          <th>Tag / Attribute</th>
+          <th>What it means</th>
+        </tr>
+        <tr>
+          <td>&lt;beans&gt;</td>
+          <td>Root tag — all bean definitions go inside this</td>
+        </tr>
+        <tr>
+          <td>xmlns</td>
+          <td>XML namespace — tells which Spring schema to use (just copy paste always)</td>
+        </tr>
+        <tr>
+          <td>&lt;bean&gt;</td>
+          <td>Defines one Spring bean — one Java object</td>
+        </tr>
+        <tr>
+          <td>id="s1"</td>
+          <td>Unique name for this bean — used to get it later in Java code</td>
+        </tr>
+        <tr>
+          <td>class="demo.Student"</td>
+          <td>Full class name with package — Spring creates object of this class</td>
+        </tr>
+        <tr>
+          <td>&lt;property&gt;</td>
+          <td>Injects value into a field using setter method</td>
+        </tr>
+        <tr>
+          <td>name="name"</td>
+          <td>Field name in Student class — Spring calls setName()</td>
+        </tr>
+        <tr>
+          <td>value="Rahul"</td>
+          <td>Value to inject — Spring calls setName("Rahul")</td>
+        </tr>
+      </table>
+
+      <div class="warn-box">Common mistake: class attribute must have full package path. Writing only "Student" instead
+        of "demo.Student" will give ClassNotFoundException error.</div>
+    </div>
+  </div>
+
+  <!-- Section 6 — Test.java -->
+  <div class="section" id="s6">
+    <div class="section-header" onclick="toggle('s6')">
+      <span class="section-num">6</span>
+      <span>Step 4 — Write Test.java (Main Class) </span>
+      <span class="toggle-icon">▾</span>
+    </div>
+    <div class="section-body">
+      <div class="speak-box">"Now we write the main class. This is where we start the Spring container, get our bean
+        from it, and call the method. This is always 3 lines of work — load container, get bean, use bean."</div>
+
+      <div class="file-label">src/demo/Test.java</div>
+      <div class="code-block"><span class="keyword">package</span> demo;
+
+        <span class="keyword">import</span> org.springframework.context.ApplicationContext;
+        <span class="keyword">import</span> org.springframework.context.support.ClassPathXmlApplicationContext;
+
+        <span class="keyword">public class</span> <span class="classname">Test</span> {
+
+        <span class="keyword">public static void</span> main(String[] args) {
+
+        <span class="comment">// Step 1: Load Spring container — reads applicationContext.xml</span>
+        ApplicationContext context =
+        <span class="keyword">new</span> ClassPathXmlApplicationContext(<span
+          class="string">"applicationContext.xml"</span>);
+
+        <span class="comment">// Step 2: Get bean s1 from container</span>
+        Student s1 = (Student) context.getBean(<span class="string">"s1"</span>);
+
+        <span class="comment">// Step 3: Use the bean — call showdetails()</span>
+        s1.showdetails();
+
+        <span class="comment">// Get second bean s2</span>
+        Student s2 = (Student) context.getBean(<span class="string">"s2"</span>);
+        s2.showdetails();
+        }
+        }
+      </div>
+
+      <h3>Explain line by line</h3>
+      <div class="point-row"><span class="bullet">→</span><span><span class="inline-code">ApplicationContext
+            context</span> — creates the Spring container and loads XML file</span></div>
+      <div class="point-row"><span class="bullet">→</span><span><span
+            class="inline-code">ClassPathXmlApplicationContext</span> — looks for XML in src folder (classpath)</span>
+      </div>
+      <div class="point-row"><span class="bullet">→</span><span><span class="inline-code">context.getBean("s1")</span> —
+          gets the bean with id "s1" from container</span></div>
+      <div class="point-row"><span class="bullet">→</span><span><span class="inline-code">(Student)</span> — type
+          casting because getBean returns Object type</span></div>
+      <div class="point-row"><span class="bullet">→</span><span><span class="inline-code">s1.showdetails()</span> —
+          calls the method on our bean</span></div>
+
+      <div class="tip-box">Ask students: "Did we write Student s1 = new Student() anywhere?" — Answer: No! Spring
+        created it. That is IoC in action.</div>
+    </div>
+  </div>
+
+  <!-- Section 7 — Output -->
+  <div class="section" id="s7">
+    <div class="section-header" onclick="toggle('s7')">
+      <span class="section-num">7</span>
+      <span>Step 5 — Run and See Output </span>
+      <span class="toggle-icon">▾</span>
+    </div>
+    <div class="section-body">
+      <div class="speak-box">"Right click on Test.java → Run As → Java Application. You will see some log4j warnings —
+        ignore them. After that you will see our output."</div>
+
+      <h3>Expected Output</h3>
+      <div class="output-box">log4j:WARN No appenders could be found for logger...
+        log4j:WARN Please initialize the log4j system properly.
+        Name = Rahul
+        Address = Pune
+        Name = Priya
+        Address = Mumbai</div>
+
+      <div class="warn-box">The log4j warnings are normal — ignore them. They appear because we have not configured
+        log4j. It does not affect our output. you may panic seeing red text — it is just a warning not an
+        error.</div>
+
+      <h3>What just happened — full flow</h3>
+      <div class="flow-steps">
+        <div class="flow-step">
+          <div class="flow-step-num">1</div>
+          <div>Test.java ran → ClassPathXmlApplicationContext loaded applicationContext.xml</div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-step-num">2</div>
+          <div>Spring read the XML → found bean id="s1" class="demo.Student"</div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-step-num">3</div>
+          <div>Spring created Student object → called setName("Rahul") and setAddress("Pune")</div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-step-num">4</div>
+          <div>context.getBean("s1") returned that Student object to us</div>
+        </div>
+        <div class="flow-step">
+          <div class="flow-step-num">5</div>
+          <div>We called showdetails() → it printed Name and Address</div>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+
+  <!-- Section 8 — Common Errors -->
+  <div class="section" id="s8">
+    <div class="section-header" onclick="toggle('s8')">
+      <span class="section-num">8</span>
+      <span>Common Errors and Fixes </span>
+      <span class="toggle-icon">▾</span>
+    </div>
+    <div class="section-body">
+      <div class="speak-box">"Let me tell you the most common mistakes students make. If you see these errors, check
+        these things first."</div>
+
+      <table class="compare-table">
+        <tr>
+          <th>Error</th>
+          <th>Reason</th>
+          <th>Fix</th>
+        </tr>
+        <tr>
+          <td>ClassNotFoundException: demo.Student</td>
+          <td>Wrong class name in XML</td>
+          <td>Check class="demo.Student" — package must match exactly</td>
+        </tr>
+        <tr>
+          <td>FileNotFoundException: applicationContext.xml</td>
+          <td>XML not in src folder</td>
+          <td>Make sure XML is directly inside src — not inside package</td>
+        </tr>
+        <tr>
+          <td>NoSuchBeanDefinitionException: s1</td>
+          <td>Wrong bean id in getBean()</td>
+          <td>Check id in XML matches getBean("s1") exactly</td>
+        </tr>
+        <tr>
+          <td>NullPointerException</td>
+          <td>Property name mismatch</td>
+          <td>name in XML property must match setter method name exactly</td>
+        </tr>
+        <tr>
+          <td>JARs not found error</td>
+          <td>JARs not added to build path</td>
+          <td>Right click JARs → Build Path → Add to Build Path</td>
+        </tr>
+      </table>
+
+      <div class="error-box">Most common mistake: writing class="Student" instead of class="demo.Student" in XML. Always
+        include the full package name.</div>
+    </div>
+  </div>
+
+  <!-- Section 9 — Practice Task -->
+  <div class="section" id="s9">
+    <div class="section-header" onclick="toggle('s9')">
+      <span class="section-num">9</span>
+      <span>Practice Task </span>
+      <span class="toggle-icon">▾</span>
+    </div>
+    <div class="section-body">
+      <div class="speak-box">"Now you do it yourself. I will give you a small task to complete in 10 minutes. This
+        confirms you understood everything."</div>
+
+      <h3>Task — Create a new Bean called Employee</h3>
+      <div class="point-row"><span class="bullet">1.</span><span>Create <span class="inline-code">Employee.java</span>
+          in demo package with fields: <span class="inline-code">empId</span> (int), <span
+            class="inline-code">empName</span> (String), <span class="inline-code">salary</span> (double)</span></div>
+      <div class="point-row"><span class="bullet">2.</span><span>Add getters, setters and a <span
+            class="inline-code">showEmployee()</span> method</span></div>
+      <div class="point-row"><span class="bullet">3.</span><span>Add a new bean in applicationContext.xml with id="e1"
+          and inject values</span></div>
+      <div class="point-row"><span class="bullet">4.</span><span>In Test.java, get the bean and call
+          showEmployee()</span></div>
+      <div class="point-row"><span class="bullet">5.</span><span>Run and show output</span></div>
+
+      <div class="success-box">Expected output: EmpId = 101, EmpName = Sagar, Salary = 50000.0</div>
+
+      
+    </div>
+  </div>
+
+  
+
+</div>
+
+<script>
+  function toggle(id) {
+    document.getElementById(id).classList.toggle('collapsed');
+  }
+</script>
