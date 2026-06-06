@@ -1,0 +1,997 @@
+<style>
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    background: #051a3d;
+    color: white;
+  }
+
+  .notes {
+    padding: 1rem 0;
+    max-width: 100%;
+    font-family: var(--font-sans);
+    color: white;
+  }
+
+  .class-header {
+    background: #10285b;
+    color: white;
+    border-radius: 10px;
+    padding: 1.2rem 1.4rem;
+    margin-bottom: 1.2rem;
+  }
+
+  .class-header h1 {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+
+  .class-header p {
+    font-size: 13px;
+    opacity: 0.85;
+  }
+
+  .meta-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 10px;
+  }
+
+  .badge {
+    font-size: 12px;
+    padding: 3px 12px;
+    border-radius: 20px;
+    font-weight: 500;
+    background: rgba(255, 255, 255, 0.2);
+  }
+
+  .section {
+    margin-bottom: 1.2rem;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  .sec-hdr {
+    padding: 11px 16px;
+    font-size: 13px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    background: #051a3d;
+    color: white;
+    user-select: none;
+  }
+
+  .sec-hdr:hover {
+    background: #071f45;
+  }
+
+  .sec-body {
+    padding: 16px;
+    border-top: 1px solid var(--color-border-tertiary);
+  }
+
+  .snum {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 700;
+    background: #3C3489;
+    color: white;
+    flex-shrink: 0;
+  }
+
+  .toggle {
+    margin-left: auto;
+    font-size: 14px;
+    transition: transform 0.2s;
+  }
+
+  .collapsed .sec-body {
+    display: none;
+  }
+
+  .collapsed .toggle {
+    transform: rotate(-90deg);
+  }
+
+  .speak {
+    background: rgba(255, 255, 255, 0.08);
+    border-left: 4px solid #1D9E75;
+    border-radius: 0 6px 6px 0;
+    padding: 10px 14px;
+    margin: 8px 0;
+    font-size: 13px;
+    font-style: italic;
+    line-height: 1.6;
+    color: white;
+  }
+
+  .code {
+    background: #1e1e2e;
+    color: #cdd6f4;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    padding: 14px;
+    border-radius: 8px;
+    margin: 8px 0;
+    line-height: 1.9;
+    overflow-x: auto;
+    white-space: pre;
+  }
+
+  .output {
+    background: #001a00;
+    color: #00ff88;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    padding: 14px;
+    border-radius: 8px;
+    margin: 8px 0;
+    line-height: 1.8;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+    margin: 10px 0;
+  }
+
+  th {
+    background: #3C3489;
+    color: white;
+    padding: 8px 10px;
+    text-align: left;
+  }
+
+  td {
+    padding: 8px 10px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: white;
+    vertical-align: top;
+    line-height: 1.5;
+  }
+
+  tr:nth-child(even) td {
+    background: var(--color-background-secondary);
+  }
+
+  .tip {
+    background: #E6F1FB;
+    border: 1px solid #B5D4F4;
+    border-radius: 6px;
+    padding: 10px 14px;
+    font-size: 12px;
+    color: #0C447C;
+    margin: 8px 0;
+  }
+
+  .warn {
+    background: #FAEEDA;
+    border: 1px solid #FAC775;
+    border-radius: 6px;
+    padding: 10px 14px;
+    font-size: 12px;
+    color: #633806;
+    margin: 8px 0;
+  }
+
+  .success {
+    background: #EAF3DE;
+    border: 1px solid #C0DD97;
+    border-radius: 6px;
+    padding: 10px 14px;
+    font-size: 12px;
+    color: #27500A;
+    margin: 8px 0;
+  }
+
+  .error {
+    background: #FCEBEB;
+    border: 1px solid #F5A8A8;
+    border-radius: 6px;
+    padding: 10px 14px;
+    font-size: 12px;
+    color: #791F1F;
+    margin: 8px 0;
+  }
+
+  h3 {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--color-text-primary);
+    margin: 12px 0 6px;
+  }
+
+  .point {
+    display: flex;
+    gap: 8px;
+    margin: 6px 0;
+    font-size: 13px;
+    line-height: 1.6;
+    align-items: flex-start;
+    color: white;
+  }
+
+  .bul {
+    color: #1D9E75;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+
+  .flabel {
+    display: inline-block;
+    background: #EEEDFE;
+    color: #3C3489;
+    border: 1px solid #CECBF6;
+    border-radius: 4px;
+    padding: 2px 8px;
+    font-size: 11px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    font-family: var(--font-mono);
+  }
+
+  .icode {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 3px;
+    padding: 1px 5px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: white;
+  }
+
+  .flow {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin: 10px 0;
+  }
+
+  .fstep {
+    display: flex;
+    gap: 10px;
+    background: var(--color-background-secondary);
+    border: 1px solid var(--color-border-tertiary);
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-size: 12px;
+    line-height: 1.6;
+    align-items: flex-start;
+  }
+
+  .fnum {
+    background: #3C3489;
+    color: white;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: 700;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .def {
+    background: var(--color-background-secondary);
+    border: 1px solid var(--color-border-tertiary);
+    border-radius: 8px;
+    padding: 12px 14px;
+    margin: 8px 0;
+  }
+
+  .def-title {
+    font-size: 12px;
+    font-weight: 700;
+    color: #E6F1FB;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+    letter-spacing: 0.04em;
+  }
+
+  .def-text {
+    font-size: 13px;
+    line-height: 1.7;
+    color: white;
+  }
+
+  .three-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+    margin: 10px 0;
+  }
+
+  .col-box {
+    border: 1px solid var(--color-border-tertiary);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .col-hdr {
+    padding: 8px 12px;
+    font-size: 12px;
+    font-weight: 700;
+    color: white;
+    text-align: center;
+  }
+
+  .col-hdr.list {
+    background: #0C447C;
+  }
+
+  .col-hdr.set {
+    background: #27500A;
+  }
+
+  .col-hdr.map {
+    background: #633806;
+  }
+
+  .col-body {
+    padding: 10px 12px;
+    font-size: 12px;
+    line-height: 1.7;
+    color: white;
+  }
+
+  .kw {
+    color: #89dceb;
+  }
+
+  .cm {
+    color: #6c7086;
+  }
+
+  .st {
+    color: #a6e3a1;
+  }
+
+  .cn {
+    color: #89b4fa;
+  }
+
+  .xmltag {
+    color: #f38ba8;
+  }
+
+  .xmlval {
+    color: #a6e3a1;
+  }
+
+  .divider {
+    border: none;
+    border-top: 2px dashed var(--color-border-tertiary);
+    margin: 16px 0;
+  }
+
+  .collection-badge {
+    display: inline-block;
+    padding: 3px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+
+  .list-badge {
+    background: #E6F1FB;
+    color: #0C447C;
+  }
+
+  .set-badge {
+    background: #EAF3DE;
+    color: #27500A;
+  }
+
+  .map-badge {
+    background: #FAEEDA;
+    color: #633806;
+  }
+</style>
+
+<div class="notes">
+
+  <!-- HEADER -->
+  <div class="class-header">
+    <h1>Class 4 — Constructor Injection with Collections</h1>
+    <p>Injecting List, Set and Map using Constructor Injection — Full Theory + Code</p>
+    
+  </div>
+
+  <!-- SECTION 1 — RECAP -->
+  <div class="section" id="s1">
+    <div class="sec-hdr" onclick="toggle('s1')">
+      <span class="snum">1</span> Quick Recap of Class 3 
+      <span class="toggle">▾</span>
+    </div>
+    <div class="sec-body">
+      <div class="speak">"Last class we learned Dependency Injection — Setter Injection and Constructor Injection with
+        simple String values. Today we go one level deeper — injecting collections like List, Set and Map through
+        Constructor Injection."</div>
+      <div class="point"><span class="bul">Q1.</span><span>What is the difference between Setter Injection and
+          Constructor Injection?</span></div>
+      <div class="point"><span class="bul">Q2.</span><span>Which XML tag is used for Constructor Injection?</span></div>
+      <div class="point"><span class="bul">Q3.</span><span>Which constructor does Spring call in Constructor
+          Injection?</span></div>
+     
+    </div>
+  </div>
+
+  <!-- SECTION 2 — WHY COLLECTIONS -->
+  <div class="section" id="s2">
+    <div class="sec-hdr" onclick="toggle('s2')">
+      <span class="snum">2</span> Why Inject Collections? 
+      <span class="toggle">▾</span>
+    </div>
+    <div class="sec-body">
+      <div class="speak">"In real applications a student does not just have a name and address. A student has multiple
+        skills, belongs to multiple departments, and has multiple books to study. We cannot store multiple values in a
+        single String. We need List, Set and Map. Spring supports injecting all these collection types."</div>
+
+      <div class="three-col">
+        <div class="col-box">
+          <div class="col-hdr list">List</div>
+          <div class="col-body">
+            Ordered collection<br />
+            Allows duplicate values<br />
+            Example: List of skills<br />
+            <span class="icode">[HTML, CSS, Java, Java]</span><br />
+            XML tag: <span class="icode">&lt;list&gt;</span>
+          </div>
+        </div>
+        <div class="col-box">
+          <div class="col-hdr set">Set</div>
+          <div class="col-body">
+            Unordered collection<br />
+            NO duplicate values<br />
+            Example: Set of departments<br />
+            <span class="icode">{CS, IT, ENTC}</span><br />
+            XML tag: <span class="icode">&lt;set&gt;</span>
+          </div>
+        </div>
+        <div class="col-box">
+          <div class="col-hdr map">Map</div>
+          <div class="col-body">
+            Key-Value pairs<br />
+            Each key is unique<br />
+            Example: Books map<br />
+            <span class="icode">{Java: Prof.Mehta}</span><br />
+            XML tag: <span class="icode">&lt;map&gt;</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="def">
+        <div class="def-title">What We Are Building Today</div>
+        <div class="def-text">A Student bean with 5 fields: id (int), name (String), skills (List), departments (Set),
+          books (Map). We will inject all 5 fields using Constructor Injection. This is a complete real-world style bean
+          with multiple data types.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 3 — STUDENT.JAVA -->
+  <div class="section" id="s3">
+    <div class="sec-hdr" onclick="toggle('s3')">
+      <span class="snum">3</span> File 1 — Student.java with Collections 
+      <span class="toggle">▾</span>
+    </div>
+    <div class="sec-body">
+      <div class="speak">"First let us write the Student class. We will have 5 fields — int, String, List, Set and Map.
+        We need a constructor that accepts all 5 fields. Spring will call this constructor to inject everything."</div>
+
+      <div class="flabel">src/demo/Student.java</div>
+      <div class="code"><span class="kw">package</span> demo;
+
+        <span class="kw">import</span> java.util.*;
+
+        <span class="kw">public class</span> <span class="cn">Student</span> {
+
+        <span class="cm">// Field 1 — simple int</span>
+        <span class="kw">private int</span> id;
+
+        <span class="cm">// Field 2 — simple String</span>
+        <span class="kw">private</span> String name;
+
+        <span class="cm">// Field 3 — List of skills (allows duplicates, ordered)</span>
+        <span class="kw">private</span> List&lt;String&gt; skills;
+
+        <span class="cm">// Field 4 — Set of departments (no duplicates, unordered)</span>
+        <span class="kw">private</span> Set&lt;String&gt; departments;
+
+        <span class="cm">// Field 5 — Map of books (key=subject, value=professor name)</span>
+        <span class="kw">private</span> Map&lt;String, String&gt; books;
+
+        <span class="cm">// DEFAULT CONSTRUCTOR</span>
+        <span class="kw">public</span> <span class="cn">Student</span>() {
+        System.out.println(<span class="st">"Default Constructor"</span>);
+        }
+
+        <span class="cm">// CONSTRUCTOR FOR id ONLY</span>
+        <span class="kw">public</span> <span class="cn">Student</span>(<span class="kw">int</span> id) {
+        <span class="kw">this</span>.id = id;
+        }
+
+        <span class="cm">// CONSTRUCTOR FOR name ONLY</span>
+        <span class="kw">public</span> <span class="cn">Student</span>(String name) {
+        <span class="kw">this</span>.name = name;
+        }
+
+        <span class="cm">// CONSTRUCTOR FOR List (skills)</span>
+        <span class="kw">public</span> <span class="cn">Student</span>(List&lt;String&gt; skills) {
+        <span class="kw">this</span>.skills = skills;
+        }
+
+        <span class="cm">// CONSTRUCTOR FOR Set (departments)</span>
+        <span class="kw">public</span> <span class="cn">Student</span>(Set&lt;String&gt; departments) {
+        <span class="kw">this</span>.departments = departments;
+        }
+
+        <span class="cm">// CONSTRUCTOR FOR Map (books)</span>
+        <span class="kw">public</span> <span class="cn">Student</span>(Map&lt;String, String&gt; books) {
+        <span class="kw">this</span>.books = books;
+        }
+
+        <span class="cm">// MAIN CONSTRUCTOR — accepts ALL 5 fields</span>
+        <span class="cm">// Spring calls this when all 5 constructor-args given in XML</span>
+        <span class="kw">public</span> <span class="cn">Student</span>(<span class="kw">int</span> id, String name,
+        List&lt;String&gt; skills,
+        Set&lt;String&gt; departments,
+        Map&lt;String, String&gt; books) {
+        <span class="kw">this</span>.id = id;
+        <span class="kw">this</span>.name = name;
+        <span class="kw">this</span>.skills = skills;
+        <span class="kw">this</span>.departments = departments;
+        <span class="kw">this</span>.books = books;
+        }
+
+        <span class="cm">// viewdetails method — prints all fields</span>
+        <span class="kw">public void</span> viewdetails() {
+        System.out.println(<span class="st">"Id = "</span> + id);
+        System.out.println(<span class="st">"Name = "</span> + name);
+
+        <span class="cm">// Print List using Iterator</span>
+        System.out.println(<span class="st">"Skills:"</span>);
+        Iterator&lt;String&gt; it = skills.iterator();
+        <span class="kw">while</span>(it.hasNext()) {
+        System.out.println(<span class="st">" "</span> + it.next());
+        }
+
+        <span class="cm">// Print Set using Iterator</span>
+        System.out.println(<span class="st">"Departments:"</span>);
+        Iterator&lt;String&gt; it1 = departments.iterator();
+        <span class="kw">while</span>(it1.hasNext()) {
+        System.out.println(<span class="st">" "</span> + it1.next());
+        }
+
+        <span class="cm">// Print Map using Entry Set Iterator</span>
+        System.out.println(<span class="st">"Books:"</span>);
+        Iterator&lt;Map.Entry&lt;String, String&gt;&gt; it2 =
+        books.entrySet().iterator();
+        <span class="kw">while</span>(it2.hasNext()) {
+        Map.Entry&lt;String, String&gt; entry = it2.next();
+        System.out.println(<span class="st">" "</span> +
+        entry.getKey() + <span class="st">" : "</span> + entry.getValue());
+        }
+        }
+        }
+      </div>
+
+      <h3>Explain These Points to Students</h3>
+      <table>
+        <tr>
+          <th>Code</th>
+          <th>Explanation</th>
+        </tr>
+        <tr>
+          <td>import java.util.*</td>
+          <td>Imports all collection classes — List, Set, Map, Iterator</td>
+        </tr>
+        <tr>
+          <td>List&lt;String&gt; skills</td>
+          <td>List that holds String values — skills of student</td>
+        </tr>
+        <tr>
+          <td>Set&lt;String&gt; departments</td>
+          <td>Set that holds String values — no duplicates allowed</td>
+        </tr>
+        <tr>
+          <td>Map&lt;String,String&gt; books</td>
+          <td>Map with String key (subject) and String value (professor)</td>
+        </tr>
+        <tr>
+          <td>Multiple constructors</td>
+          <td>Spring picks the right constructor based on how many constructor-arg tags we give in XML</td>
+        </tr>
+        <tr>
+          <td>Iterator</td>
+          <td>Used to loop through List, Set and Map and print each element</td>
+        </tr>
+        <tr>
+          <td>entry.getKey()</td>
+          <td>Gets the key from Map entry (subject name)</td>
+        </tr>
+        <tr>
+          <td>entry.getValue()</td>
+          <td>Gets the value from Map entry (professor name)</td>
+        </tr>
+      </table>
+
+      <div class="tip">Ask students: "Why do we have multiple constructors?" — Answer: Spring picks the matching
+        constructor based on the number and types of constructor-arg values in XML. One constructor for each use case.
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 4 — XML CONFIG -->
+  <div class="section" id="s4">
+    <div class="sec-hdr" onclick="toggle('s4')">
+      <span class="snum">4</span> File 2 — applicationContext.xml with All 3 Collections 
+      <span class="toggle">▾</span>
+    </div>
+    <div class="sec-body">
+      <div class="speak">"Now we write the XML. This is the most important part of today's class. We will write 4 beans
+        — one with all 5 fields, one with only List, one with only Set, one with only Map. This shows students how
+        flexible Spring injection is."</div>
+
+      <div class="flabel">src/applicationContext.xml — Full Configuration</div>
+      <div class="code">&lt;?xml version=<span class="xmlval">"1.0"</span> encoding=<span
+          class="xmlval">"UTF-8"</span>?&gt;
+        &lt;<span class="xmltag">beans</span> xmlns=<span
+          class="xmlval">"http://www.springframework.org/schema/beans"</span>
+        xmlns:xsi=<span class="xmlval">"http://www.w3.org/2001/XMLSchema-instance"</span>
+        xsi:schemaLocation=<span class="xmlval">"http://www.springframework.org/schema/beans
+          http://www.springframework.org/schema/beans/spring-beans.xsd"</span>&gt;
+
+        <span class="cm">&lt;!-- ==========================================
+          BEAN s1 — ALL 5 FIELDS injected
+          Uses main constructor with 5 parameters
+          =========================================== --&gt;</span>
+        &lt;<span class="xmltag">bean</span> id=<span class="xmlval">"s1"</span> class=<span
+          class="xmlval">"demo.Student"</span>&gt;
+
+        <span class="cm">&lt;!-- constructor-arg 1 — int id --&gt;</span>
+        &lt;<span class="xmltag">constructor-arg</span> value=<span class="xmlval">"10"</span> /&gt;
+
+        <span class="cm">&lt;!-- constructor-arg 2 — String name --&gt;</span>
+        &lt;<span class="xmltag">constructor-arg</span> value=<span class="xmlval">"Rahul"</span> /&gt;
+
+        <span class="cm">&lt;!-- constructor-arg 3 — List of skills --&gt;</span>
+        &lt;<span class="xmltag">constructor-arg</span>&gt;
+        &lt;<span class="xmltag">list</span>&gt;
+        &lt;<span class="xmltag">value</span>&gt;HTML&lt;/<span class="xmltag">value</span>&gt;
+        &lt;<span class="xmltag">value</span>&gt;CSS&lt;/<span class="xmltag">value</span>&gt;
+        &lt;<span class="xmltag">value</span>&gt;Java&lt;/<span class="xmltag">value</span>&gt;
+        &lt;<span class="xmltag">value</span>&gt;Spring Framework&lt;/<span class="xmltag">value</span>&gt;
+        &lt;/<span class="xmltag">list</span>&gt;
+        &lt;/<span class="xmltag">constructor-arg</span>&gt;
+
+        <span class="cm">&lt;!-- constructor-arg 4 — Set of departments --&gt;</span>
+        &lt;<span class="xmltag">constructor-arg</span>&gt;
+        &lt;<span class="xmltag">set</span>&gt;
+        &lt;<span class="xmltag">value</span>&gt;CS&lt;/<span class="xmltag">value</span>&gt;
+        &lt;<span class="xmltag">value</span>&gt;IT&lt;/<span class="xmltag">value</span>&gt;
+        &lt;<span class="xmltag">value</span>&gt;ENTC&lt;/<span class="xmltag">value</span>&gt;
+        &lt;<span class="xmltag">value</span>&gt;MECH&lt;/<span class="xmltag">value</span>&gt;
+        &lt;/<span class="xmltag">set</span>&gt;
+        &lt;/<span class="xmltag">constructor-arg</span>&gt;
+
+        <span class="cm">&lt;!-- constructor-arg 5 — Map of books --&gt;</span>
+        <span class="cm">&lt;!-- key = subject name, value = professor name --&gt;</span>
+        &lt;<span class="xmltag">constructor-arg</span>&gt;
+        &lt;<span class="xmltag">map</span>&gt;
+        &lt;<span class="xmltag">entry</span> key=<span class="xmlval">"Java"</span> value=<span class="xmlval">"Prof.
+          Mehta"</span> /&gt;
+        &lt;<span class="xmltag">entry</span> key=<span class="xmlval">"Python"</span> value=<span class="xmlval">"Prof.
+          Shah"</span> /&gt;
+        &lt;<span class="xmltag">entry</span> key=<span class="xmlval">"DBMS"</span> value=<span class="xmlval">"Prof.
+          Patil"</span> /&gt;
+        &lt;<span class="xmltag">entry</span> key=<span class="xmlval">"Spring"</span> value=<span class="xmlval">"Prof.
+          Rao"</span> /&gt;
+        &lt;/<span class="xmltag">map</span>&gt;
+        &lt;/<span class="xmltag">constructor-arg</span>&gt;
+
+        &lt;/<span class="xmltag">bean</span>&gt;
+
+        &lt;/<span class="xmltag">beans</span>&gt;
+      </div>
+
+      <h3>Every New XML Tag Explained</h3>
+      <table>
+        <tr>
+          <th>XML Tag</th>
+          <th>Purpose</th>
+          <th>Collection Type</th>
+        </tr>
+        <tr>
+          <td>&lt;list&gt;</td>
+          <td>Injects a List — ordered, allows duplicates</td>
+          <td>List&lt;String&gt;</td>
+        </tr>
+        <tr>
+          <td>&lt;set&gt;</td>
+          <td>Injects a Set — unordered, no duplicates</td>
+          <td>Set&lt;String&gt;</td>
+        </tr>
+        <tr>
+          <td>&lt;map&gt;</td>
+          <td>Injects a Map — key-value pairs</td>
+          <td>Map&lt;String,String&gt;</td>
+        </tr>
+        <tr>
+          <td>&lt;value&gt;</td>
+          <td>One item inside list or set</td>
+          <td>String value</td>
+        </tr>
+        <tr>
+          <td>&lt;entry key="" value=""&gt;</td>
+          <td>One key-value pair inside map</td>
+          <td>Map entry</td>
+        </tr>
+        <tr>
+          <td>&lt;constructor-arg&gt; without value attribute</td>
+          <td>Used when injecting a collection — collection tag goes inside</td>
+          <td>List / Set / Map</td>
+        </tr>
+        <tr>
+          <td>&lt;constructor-arg value=""&gt;</td>
+          <td>Used when injecting simple value like String or int</td>
+          <td>String / int</td>
+        </tr>
+      </table>
+
+      <div class="warn">Important: When injecting simple value like String or int — use value attribute directly in
+        constructor-arg tag. When injecting collection — do NOT use value attribute. Instead put list/set/map tag INSIDE
+        constructor-arg tag.</div>
+    </div>
+  </div>
+
+  <!-- SECTION 5 — TEST.JAVA -->
+  <div class="section" id="s5">
+    <div class="sec-hdr" onclick="toggle('s5')">
+      <span class="snum">5</span> File 3 — Test.java 
+      <span class="toggle">▾</span>
+    </div>
+    <div class="sec-body">
+      <div class="speak">"Test.java is same 3 steps as always — load container, get bean, call method. Nothing new
+        here."</div>
+
+      <div class="flabel">src/demo/Test.java</div>
+      <div class="code"><span class="kw">package</span> demo;
+
+        <span class="kw">import</span> org.springframework.context.<span class="cn">ApplicationContext</span>;
+        <span class="kw">import</span> org.springframework.context.support.<span
+          class="cn">ClassPathXmlApplicationContext</span>;
+
+        <span class="kw">public class</span> <span class="cn">Test</span> {
+
+        <span class="kw">public static void</span> main(String[] args) {
+
+        <span class="cm">// Step 1 — Load Spring container</span>
+        <span class="cn">ApplicationContext</span> context =
+        <span class="kw">new</span> <span class="cn">ClassPathXmlApplicationContext</span>(<span
+          class="st">"applicationContext.xml"</span>);
+
+        <span class="cm">// Step 2 — Get bean s1 (all 5 fields)</span>
+        <span class="cn">Student</span> s1 = (<span class="cn">Student</span>) context.getBean(<span
+          class="st">"s1"</span>);
+
+        <span class="cm">// Step 3 — Call viewdetails to print everything</span>
+        s1.viewdetails();
+        }
+        }
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 6 — OUTPUT -->
+  <div class="section" id="s6">
+    <div class="sec-hdr" onclick="toggle('s6')">
+      <span class="snum">6</span> Run and Expected Output 
+      <span class="toggle">▾</span>
+    </div>
+    <div class="sec-body">
+      <div class="speak">"Right click Test.java → Run As → Java Application. Let us see what comes in console."</div>
+
+      <h3>Expected Output</h3>
+      <div class="output">Id= 10
+        Name= Rahul
+        Skills:
+        HTML
+        CSS
+        Java
+        Spring Framework
+        Departments:
+        CS
+        IT
+        ENTC
+        MECH
+        Books:
+        Java : Prof. Mehta
+        Python : Prof. Shah
+        DBMS : Prof. Patil
+        Spring : Prof. Rao</div>
+
+      <div class="speak">"Look at this output — Spring injected int, String, a full List, a full Set and a full Map —
+        all through one constructor call. This is the power of Constructor Injection with collections."</div>
+
+      <h3>What Happened Internally</h3>
+      <div class="flow">
+        <div class="fstep">
+          <div class="fnum">1</div>
+          <div>Spring read XML → found 5 constructor-arg tags for bean s1</div>
+        </div>
+        <div class="fstep">
+          <div class="fnum">2</div>
+          <div>Spring collected all 5 values — int 10, String "Rahul", List of 4 skills, Set of 4 depts, Map of 4 books
+          </div>
+        </div>
+        <div class="fstep">
+          <div class="fnum">3</div>
+          <div>Spring called main constructor: <span class="icode">new Student(10, "Rahul", skills, departments,
+              books)</span></div>
+        </div>
+        <div class="fstep">
+          <div class="fnum">4</div>
+          <div>All 5 fields were injected in one single constructor call</div>
+        </div>
+        <div class="fstep">
+          <div class="fnum">5</div>
+          <div>viewdetails() used Iterator to print all collection values</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 7 — LIST vs SET vs MAP -->
+  <div class="section" id="s7">
+    <div class="sec-hdr" onclick="toggle('s7')">
+      <span class="snum">7</span> List vs Set vs Map — Difference Table  
+            <span class="toggle">▾</span>
+    </div>
+    <div class="sec-body">
+      <div class="speak">"Students must know the difference between these 3 collections. This is important both for
+        Spring and for core Java interviews."</div>
+      <table>
+        <tr>
+          <th>Point</th>
+          <th>List</th>
+          <th>Set</th>
+          <th>Map</th>
+        </tr>
+        <tr>
+          <td>Data stored</td>
+          <td>Single values</td>
+          <td>Single values</td>
+          <td>Key-Value pairs</td>
+        </tr>
+        <tr>
+          <td>Duplicates</td>
+          <td>Allowed </td>
+          <td>Not allowed </td>
+          <td>Keys unique, values can repeat</td>
+        </tr>
+        <tr>
+          <td>Order</td>
+          <td>Ordered (insertion order)</td>
+          <td>Unordered</td>
+          <td>No guaranteed order</td>
+        </tr>
+        <tr>
+          <td>XML tag in Spring</td>
+          <td>&lt;list&gt;</td>
+          <td>&lt;set&gt;</td>
+          <td>&lt;map&gt;</td>
+        </tr>
+        <tr>
+          <td>Item tag</td>
+          <td>&lt;value&gt;</td>
+          <td>&lt;value&gt;</td>
+          <td>&lt;entry key="" value=""&gt;</td>
+        </tr>
+        <tr>
+          <td>Real example</td>
+          <td>Skills, courses</td>
+          <td>Departments, categories</td>
+          <td>Subject-Professor, Item-Price</td>
+        </tr>
+        <tr>
+          <td>Java class used</td>
+          <td>ArrayList</td>
+          <td>HashSet</td>
+          <td>HashMap</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- SECTION 8 — PRACTICE TASK -->
+  <div class="section" id="s8">
+    <div class="sec-hdr" onclick="toggle('s8')">
+      <span class="snum">8</span> Practice Task 
+      <span class="toggle">▾</span>
+    </div>
+    <div class="sec-body">
+      <div class="speak">"Now you do it yourself. Create a new Employee bean with collections and inject everything
+        using Constructor Injection."</div>
+
+      <h3>Task — Create Employee Bean with Collections</h3>
+      <div class="point"><span class="bul">1.</span><span>Create <span class="icode">Employee.java</span> with fields:
+          empId (int), empName (String), technologies (List), roles (Set), salaryHistory (Map key=year
+          value=salary)</span></div>
+      <div class="point"><span class="bul">2.</span><span>Write all constructors — individual + main constructor with
+          all 5 fields</span></div>
+      <div class="point"><span class="bul">3.</span><span>Write <span class="icode">showEmployee()</span> method using
+          Iterator to print all fields</span></div>
+      <div class="point"><span class="bul">4.</span><span>In XML create bean id="e1" and inject all 5 fields using
+          constructor-arg with list, set, map tags</span></div>
+      <div class="point"><span class="bul">5.</span><span>In Test.java get e1 bean and call showEmployee()</span></div>
+      <div class="point"><span class="bul">6.</span><span>Run and verify output shows all values correctly</span></div>
+
+      <div class="output">Expected Output:
+        EmpId = 101
+        EmpName = Sagar
+        Technologies:
+        Java
+        Spring
+        MySQL
+        Roles:
+        Developer
+        Tester
+        Salary History:
+        2022 : 30000
+        2023 : 45000
+        2024 : 60000</div>
+
+      
+  </div>
+
+  <!-- SECTION 9 — REVISION QUESTIONS -->
+  <div class="section" id="s9">
+    <div class="sec-hdr" onclick="toggle('s9')">
+      <span class="snum">9</span> Revision Questions
+      <span class="toggle">▾</span>
+    </div>
+    <div class="sec-body">
+      <div class="point"><span class="bul">Q1.</span><span>Which XML tag is used to inject a List in Spring?</span>
+      </div>
+      <div class="point"><span class="bul">Q2.</span><span>Which XML tag is used to inject a Set in Spring?</span></div>
+      <div class="point"><span class="bul">Q3.</span><span>Which XML tag is used to inject a Map in Spring?</span></div>
+      <div class="point"><span class="bul">Q4.</span><span>What is the difference between List and Set?</span></div>
+      <div class="point"><span class="bul">Q5.</span><span>What tag is used to add one item in a List or Set inside
+          XML?</span></div>
+      <div class="point"><span class="bul">Q6.</span><span>What tag is used to add one key-value pair in a Map inside
+          XML?</span></div>
+      <div class="point"><span class="bul">Q7.</span><span>How do you print all values of a Map using Iterator?</span>
+      </div>
+    </div>
+  </div>
+
+  
+
+</div>
+
+<script>
+  function toggle(id) {
+    document.getElementById(id).classList.toggle('collapsed');
+  }
+</script>
