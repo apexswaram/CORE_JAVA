@@ -1,0 +1,986 @@
+<style>
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Theme variables (mobile-first) */
+  :root{
+    --bg-gradient-1: linear-gradient(135deg,#0f172a 0%, #081334 50%, #032029 100%);
+    --card-bg: rgba(255,255,255,0.04);
+    --card-glow: rgba(255,255,255,0.02);
+    --accent: #5DCAA5;
+    --muted: rgba(255,255,255,0.7);
+    --text: #E6EEF3;
+    --highlight: rgba(93,202,165,0.12);
+    --border: rgba(255,255,255,0.06);
+    --glass-blur: 6px;
+    --font-sans: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", monospace;
+    --border-radius-sm:6px;
+    --border-radius-md:10px;
+    --border-radius-lg:14px;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    font-size: 16px;
+    color: var(--text);
+    background: var(--bg-gradient-1);
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+    padding: 18px;
+    line-height:1.7;
+  }
+
+  /* Page wrapper to center content on large screens */
+  .notes{
+    max-width:1000px;
+    margin:0 auto;
+    padding:18px;
+  }
+
+  /* Card style for sections/header to improve readability */
+  .class-header, .section{
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    box-shadow: 0 6px 18px rgba(2,6,23,0.6), 0 1px 0 var(--card-glow) inset;
+    border: 1px solid var(--border);
+  }
+
+  /* Soft highlight for paragraphs and important text */
+  .speak-box, .code-block, .tip-box, .warn-box, .step-content{
+    background: linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    padding:12px;
+    border-radius: var(--border-radius-md);
+  }
+
+  /* Highlight important inline text for easier reading */
+  .highlight{ background: var(--highlight); padding: 0.12rem 0.28rem; border-radius:4px; }
+
+  /* Mobile-first typography */
+  h1{ font-size:26px; }
+  h3{ font-size:17px; }
+
+  /* Responsive adjustments for larger screens */
+  @media (min-width: 768px){
+    body{ padding:28px; }
+    .notes{ padding:28px; }
+    h1{ font-size:24px; }
+    .section-header,
+    .sec-hdr { padding:16px 20px; }
+    .section-body,
+    .sec-body { padding:22px; }
+    .code,
+    .code-block { font-size:15px; }
+  }
+
+  @media (min-width: 1100px){
+    .notes{ max-width:1100px; }
+  }
+
+  .notes {
+    padding: 1rem 0;
+    max-width: 100%;
+  }
+
+  .class-header {
+    background: var(--color-background-secondary);
+    border: 1px solid var(--color-border-tertiary);
+    border-radius: var(--border-radius-lg);
+    padding: 1.2rem 1.4rem;
+    margin-bottom: 1.2rem;
+  }
+
+  .class-header h1 {
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--color-text-primary);
+    margin-bottom: 4px;
+  }
+
+  .class-header p {
+    font-size: 13px;
+    color: var(--color-text-secondary);
+  }
+
+  .meta-row {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 10px;
+  }
+
+  .badge {
+    font-size: 12px;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-weight: 500;
+  }
+
+  .badge-blue {
+    background: #E6F1FB;
+    color: #0C447C;
+  }
+
+  .badge-green {
+    background: #EAF3DE;
+    color: #27500A;
+  }
+
+  .badge-amber {
+    background: #FAEEDA;
+    color: #633806;
+  }
+
+  .section {
+    margin-bottom: 1.2rem;
+    border: 1px solid var(--color-border-tertiary);
+    border-radius: var(--border-radius-lg);
+    overflow: hidden;
+  }
+
+  .section-header,
+  .sec-hdr {
+    padding: 12px 16px;
+    font-size: 14px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    background: var(--color-background-secondary);
+  }
+
+  .section-header:hover,
+  .sec-hdr:hover {
+    background: var(--color-background-tertiary);
+  }
+
+  .section-body,
+  .sec-body {
+    padding: 16px;
+    border-top: 1px solid var(--color-border-tertiary);
+  }
+
+  .toggle,
+  .toggle-icon {
+    margin-left: auto;
+    font-size: 16px;
+    transition: transform 0.2s;
+  }
+
+  .collapsed .section-body,
+  .collapsed .sec-body {
+    display: none;
+  }
+
+  .collapsed .toggle,
+  .collapsed .toggle-icon {
+    transform: rotate(-90deg);
+  }
+
+  .step {
+    margin-bottom: 1rem;
+  }
+
+  .step-label {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--color-text-secondary);
+    margin-bottom: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .step-content {
+    font-size: 14px;
+    color: var(--color-text-primary);
+    line-height: 1.7;
+  }
+
+  .speak-box {
+    background: var(--color-background-tertiary);
+    border-left: 3px solid #5DCAA5;
+    border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0;
+    padding: 10px 14px;
+    margin: 8px 0;
+    font-size: 14px;
+    color: var(--color-text-primary);
+    line-height: 1.6;
+    font-style: italic;
+  }
+
+  .code,
+  .code-block {
+    background: var(--color-background-tertiary);
+    border: 1px solid var(--color-border-tertiary);
+    border-radius: var(--border-radius-md);
+    padding: 12px 14px;
+    font-family: var(--font-mono);
+    font-size: 14px;
+    color: var(--color-text-primary);
+    line-height: 1.7;
+    overflow-x: auto;
+    margin: 8px 0;
+    white-space: pre;
+    display: block;
+  }
+
+  .point-row {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    margin: 6px 0;
+    font-size: 14px;
+    color: var(--color-text-primary);
+    line-height: 1.6;
+  }
+
+  .bullet {
+    color: #1D9E75;
+    font-size: 16px;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .compare-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    margin: 8px 0;
+  }
+
+  .compare-table th {
+    background: var(--color-background-secondary);
+    padding: 8px 12px;
+    text-align: left;
+    font-weight: 500;
+    border: 1px solid var(--color-border-tertiary);
+    color: var(--color-text-primary);
+  }
+
+  .compare-table td {
+    padding: 8px 12px;
+    border: 1px solid var(--color-border-tertiary);
+    color: var(--color-text-primary);
+    vertical-align: top;
+  }
+
+  .compare-table tr:nth-child(even) td {
+    background: var(--color-background-secondary);
+  }
+
+  .tip-box {
+    background: #E6F1FB;
+    border: 1px solid #B5D4F4;
+    border-radius: var(--border-radius-md);
+    padding: 10px 14px;
+    font-size: 13px;
+    color: #0C447C;
+    margin: 8px 0;
+  }
+
+  .warn-box {
+    background: #FAEEDA;
+    border: 1px solid #FAC775;
+    border-radius: var(--border-radius-md);
+    padding: 10px 14px;
+    font-size: 13px;
+    color: #633806;
+    margin: 8px 0;
+  }
+
+  .section-num {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 500;
+    background: #E6F1FB;
+    color: #0C447C;
+    flex-shrink: 0;
+  }
+
+  .toggle-icon {
+    margin-left: auto;
+    font-size: 16px;
+    transition: transform 0.2s;
+  }
+
+  .collapsed .section-body {
+    display: none;
+  }
+
+  .collapsed .toggle-icon {
+    transform: rotate(-90deg);
+  }
+
+  h3 {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--color-text-primary);
+    margin: 12px 0 6px;
+  }
+
+  .time-note {
+    font-size: 12px;
+    color: var(--color-text-secondary);
+    margin-top: 4px;
+  }
+
+  .arch-row {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin: 10px 0;
+  }
+
+  .arch-layer {
+    border-radius: 6px;
+    padding: 8px 14px;
+    font-size: 13px;
+  }
+
+  .layer-1 {
+    background: #E6F1FB;
+    color: #0C447C;
+    border: 1px solid #B5D4F4;
+  }
+
+  .layer-2 {
+    background: #EAF3DE;
+    color: #27500A;
+    border: 1px solid #C0DD97;
+  }
+
+  .layer-3 {
+    background: #FAEEDA;
+    color: #633806;
+    border: 1px solid #FAC775;
+  }
+
+  .layer-4 {
+    background: #EEEDFE;
+    color: #3C3489;
+    border: 1px solid #CECBF6;
+  }
+
+  .layer-5 {
+    background: #E1F5EE;
+    color: #085041;
+    border: 1px solid #9FE1CB;
+  }
+
+  .arch-label {
+    font-weight: 500;
+    font-size: 12px;
+  }
+
+  .arch-sub {
+    font-size: 11px;
+    opacity: 0.8;
+    margin-top: 2px;
+  }
+</style>
+
+<div class="notes">
+  <div class="class-header">
+    <h1>Class 1 — Spring Framework Introduction</h1>
+    
+  </div>
+
+
+<div class="notes">
+
+  <!-- HEADER -->
+  <div class="class-header">
+    <h1>Class 3 — Dependency Injection (DI)</h1>
+    <p>What is DI, Why we need it, How it works, Setter Injection, Constructor Injection — Full Code</p>
+    
+  </div>
+
+  <!-- SECTION 1 — RECAP -->
+  <div class="section" id="s1">
+    <div class="sec-hdr" onclick="toggle('s1')">
+      <span class="snum">1</span> Quick Recap of Class 2 — 
+      <span class="toggle">▾</span>
+    </div>
+    <div class="sec-body">
+      <div class="speak">"Last class we wrote our first Spring application. Let me quickly ask 3 questions before we
+        move ahead."</div>
+      <div class="point"><span class="bul">Q1.</span><span>What are the 3 files in a Spring application and what does
+          each do?</span></div>
+      <div class="point"><span class="bul">Q2.</span><span>What tag do we use in XML to define a bean? What are id and
+          class attributes?</span></div>
+      <div class="point"><span class="bul">Q3.</span><span>How does Spring inject values into a bean? Which method does
+          it call?</span></div>
+      
+    </div>
+  </div>
+
+  <!-- SECTION 2 — WHAT IS DI -->
+  <div class="section" id="s2">
+    <div class="sec-hdr" onclick="toggle('s2')">
+      <span class="snum">2</span> What is Dependency Injection? 
+      <span class="toggle">▾</span>
+    </div>
+    <div class="sec-body">
+      <div class="speak">"First let me a what is a dependency? If ClassA needs ClassB to work, then ClassB is a
+        dependency of ClassA. Now — who creates that ClassB object? Normally YOU create it using new keyword. DI means
+        Spring creates and gives it to you automatically."</div>
+
+      <div class="def">
+        <div class="def-title">Definition — Dependency Injection</div>
+        <div class="def-text">Dependency Injection is a feature of Spring where the IoC Container automatically provides
+          (injects) the required objects (dependencies) to a class. The developer does not create objects manually using
+          new keyword. Spring reads the XML configuration and injects everything automatically.</div>
+      </div>
+
+      <h3>Without DI — The Problem (Tight Coupling)</h3>
+      <div class="di-compare">
+        <div class="di-box bad">
+          <div class="di-label">Without DI — BAD WAY</div>
+          <div class="code" style="margin:0; font-size:13px;">public class Student {
+            // Developer creates
+            // Address object manually
+            Address addr = new Address();
+
+            // Problem:
+            // Student depends directly
+            // on Address class
+            // Tight Coupling!
+            // If Address changes
+            // Student also breaks
+            }</div>
+        </div>
+        <div class="di-box good">
+          <div class="di-label"> With DI — SPRING WAY</div>
+          <div class="code" style="margin:0; font-size:13px;">public class Student {
+            // Spring injects Address
+            // object automatically
+            Address addr;
+
+            // Student does not know
+            // HOW Address is created
+            // Loose Coupling!
+            // Spring handles everything
+            // from outside using XML
+            }</div>
+        </div>
+      </div>
+
+      <h3>4 Reasons Why We Need DI</h3>
+      <div class="point"><span class="bul">1.</span><span><strong>Loose Coupling</strong> — Classes do not depend
+          directly on each other. Easy to change one without breaking another.</span></div>
+      <div class="point"><span class="bul">2.</span><span><strong>Easy Object Management</strong> — Spring creates and
+          manages all objects. Developer does not worry about creation.</span></div>
+      <div class="point"><span class="bul">3.</span><span><strong>Code Reusability</strong> — Same bean can be injected
+          into multiple classes. Write once, use anywhere.</span></div>
+      <div class="point"><span class="bul">4.</span><span><strong>Easy Testing</strong> — You can replace real objects
+          with mock objects for testing without changing code.</span></div>
+
+      <h3>How DI Works — Full Flow</h3>
+      <div class="flow">
+        <div class="fstep">
+          <div class="fnum">1</div>
+          <div>IoC Container reads XML configuration file or Java annotations</div>
+        </div>
+        <div class="fstep">
+          <div class="fnum">2</div>
+          <div>Container creates Bean 1 and Bean 2 based on configuration</div>
+        </div>
+        <div class="fstep">
+          <div class="fnum">3</div>
+          <div>Container INJECTS Bean 2 into Bean 1 automatically — no manual new keyword</div>
+        </div>
+        <div class="fstep">
+          <div class="fnum">4</div>
+          <div>Container manages lifecycle of all beans — creation, use, and destruction</div>
+        </div>
+      </div>
+
+      <div class="speak">"So in simple words — YOU define what you need in XML. Spring reads it and gives it to you.
+        That is Dependency Injection."</div>
+    </div>
+  </div>
+
+  <!-- SECTION 3 — TYPES OF DI -->
+  <div class="section" id="s3">
+    <div class="sec-hdr" onclick="toggle('s3')">
+      <span class="snum">3</span> Types of Dependency Injection
+      <span class="toggle">▾</span>
+    </div>
+    <div class="sec-body">
+      <div class="speak">"Spring supports 2 main types of Dependency Injection. Today we will code both. Understanding
+        the difference between them is very important for interviews and tests."</div>
+
+      <div class="two-col">
+        <div class="col-box">
+          <div class="col-hdr setter">Type 1 — Setter Injection</div>
+          <div class="col-body">
+            Spring injects dependencies using <strong>setter methods</strong><br /><br />
+            Uses <strong>&lt;property&gt;</strong> tag in XML<br /><br />
+            Used when dependencies are <strong>optional</strong> or can change later<br /><br />
+            Spring first creates object using default constructor — then calls setters
+          </div>
+        </div>
+        <div class="col-box">
+          <div class="col-hdr constructor">Type 2 — Constructor Injection</div>
+          <div class="col-body">
+            Spring injects dependencies using <strong>constructor</strong><br /><br />
+            Uses <strong>&lt;constructor-arg&gt;</strong> tag in XML<br /><br />
+            Used when dependencies are <strong>mandatory</strong> at object creation<br /><br />
+            Spring creates object and injects values at the same time
+          </div>
+        </div>
+      </div>
+
+      <div class="tip">Spring team recommends Constructor Injection as first choice because it makes dependencies
+        immutable and code cleaner. Setter Injection is used when dependencies are optional.</div>
+    </div>
+  </div>
+
+  <!-- SECTION 4 — SETTER INJECTION THEORY -->
+  <div class="section" id="s4">
+    <div class="sec-hdr" onclick="toggle('s4')">
+      <span class="snum">4</span> Setter Injection 
+      <span class="toggle">▾</span>
+    </div>
+    <div class="sec-body">
+      <div class="speak">"Setter Injection is what we already did in Class 2 — but we did not know its name. When Spring
+        calls setName() and setAddress() to put values — that is Setter Injection. Let us understand it properly now."
+      </div>
+
+      <div class="def">
+        <div class="def-title">Definition — Setter Injection</div>
+        <div class="def-text">In Setter Injection Spring uses the setter methods of a class to inject the dependency
+          values. The bean must have setter methods for each field that needs to be injected. In XML we use the
+          &lt;property&gt; tag. Spring first creates the object using the default no-argument constructor and then calls
+          the setter methods one by one to inject values.</div>
+      </div>
+
+      <h3>How Setter Injection Works Internally</h3>
+      <div class="flow">
+        <div class="fstep">
+          <div class="fnum">1</div>
+          <div>Spring reads: <span class="icode">&lt;bean id="s1" class="demo.Student"&gt;</span></div>
+        </div>
+        <div class="fstep">
+          <div class="fnum">2</div>
+          <div>Spring calls: <span class="icode">Student s1 = new Student()</span> — default constructor</div>
+        </div>
+        <div class="fstep">
+          <div class="fnum">3</div>
+          <div>Spring reads: <span class="icode">&lt;property name="name" value="Rahul"&gt;</span></div>
+        </div>
+        <div class="fstep">
+          <div class="fnum">4</div>
+          <div>Spring calls: <span class="icode">s1.setName("Rahul")</span> — setter method</div>
+        </div>
+        <div class="fstep">
+          <div class="fnum">5</div>
+          <div>Spring reads: <span class="icode">&lt;property name="address" value="Pune"&gt;</span></div>
+        </div>
+        <div class="fstep">
+          <div class="fnum">6</div>
+          <div>Spring calls: <span class="icode">s1.setAddress("Pune")</span> — setter method</div>
+        </div>
+        <div class="fstep">
+          <div class="fnum">7</div>
+          <div>Bean s1 is fully ready with all values injected</div>
+        </div>
+      </div>
+
+      <h3>Setter Injection — Full Code</h3>
+
+      <div class="flabel">src/demo/Student.java</div>
+      <div class="code"><span class="kw">package</span> demo;
+
+        <span class="kw">public class</span> <span class="cn">Student</span> {
+
+        <span class="cm">// private fields</span>
+        <span class="kw">private</span> String name;
+        <span class="kw">private</span> String address;
+
+        <span class="cm">// DEFAULT CONSTRUCTOR — Spring needs this for Setter Injection</span>
+        <span class="kw">public</span> <span class="cn">Student</span>() {
+        System.out.println(<span class="st">"Student Default Constructor called"</span>);
+        }
+
+        <span class="cm">// Setter for name — Spring calls this to inject name</span>
+        <span class="kw">public void</span> setName(String name) {
+        <span class="kw">this</span>.name = name;
+        }
+
+        <span class="cm">// Setter for address — Spring calls this to inject address</span>
+        <span class="kw">public void</span> setAddress(String address) {
+        <span class="kw">this</span>.address = address;
+        }
+
+        <span class="cm">// Getter for name</span>
+        <span class="kw">public</span> String getName() { <span class="kw">return</span> name; }
+
+        <span class="cm">// Getter for address</span>
+        <span class="kw">public</span> String getAddress() { <span class="kw">return</span> address; }
+
+        <span class="cm">// Display method</span>
+        <span class="kw">public void</span> showdetails() {
+        System.out.println(<span class="st">"Name = "</span> + name);
+        System.out.println(<span class="st">"Address = "</span> + address);
+        }
+        }
+      </div>
+
+      <div class="flabel">src/applicationContext.xml — Setter Injection using &lt;property&gt; tag</div>
+      <div class="code">&lt;?xml version=<span class="xmlval">"1.0"</span> encoding=<span
+          class="xmlval">"UTF-8"</span>?&gt;
+        &lt;<span class="xmltag">beans</span> xmlns=<span
+          class="xmlval">"http://www.springframework.org/schema/beans"</span>
+        xmlns:xsi=<span class="xmlval">"http://www.w3.org/2001/XMLSchema-instance"</span>
+        xsi:schemaLocation=<span class="xmlval">"http://www.springframework.org/schema/beans
+          http://www.springframework.org/schema/beans/spring-beans.xsd"</span>&gt;
+
+        <span class="cm">&lt;!-- Setter Injection — using property tag --&gt;</span>
+        &lt;<span class="xmltag">bean</span> id=<span class="xmlval">"s1"</span> class=<span
+          class="xmlval">"demo.Student"</span>&gt;
+        &lt;<span class="xmltag">property</span> name=<span class="xmlval">"name"</span> value=<span
+          class="xmlval">"Rahul"</span> /&gt;
+        &lt;<span class="xmltag">property</span> name=<span class="xmlval">"address"</span> value=<span
+          class="xmlval">"Pune"</span> /&gt;
+        &lt;/<span class="xmltag">bean</span>&gt;
+
+        &lt;<span class="xmltag">bean</span> id=<span class="xmlval">"s2"</span> class=<span
+          class="xmlval">"demo.Student"</span>&gt;
+        &lt;<span class="xmltag">property</span> name=<span class="xmlval">"name"</span> value=<span
+          class="xmlval">"Priya"</span> /&gt;
+        &lt;<span class="xmltag">property</span> name=<span class="xmlval">"address"</span> value=<span
+          class="xmlval">"Mumbai"</span> /&gt;
+        &lt;/<span class="xmltag">bean</span>&gt;
+
+        &lt;/<span class="xmltag">beans</span>&gt;
+      </div>
+
+      <div class="flabel">src/demo/Test.java</div>
+      <div class="code"><span class="kw">package</span> demo;
+        <span class="kw">import</span> org.springframework.context.<span class="cn">ApplicationContext</span>;
+        <span class="kw">import</span> org.springframework.context.support.<span
+          class="cn">ClassPathXmlApplicationContext</span>;
+
+        <span class="kw">public class</span> <span class="cn">Test</span> {
+        <span class="kw">public static void</span> main(String[] args) {
+        <span class="cn">ApplicationContext</span> context =
+        <span class="kw">new</span> <span class="cn">ClassPathXmlApplicationContext</span>(<span
+          class="st">"applicationContext.xml"</span>);
+
+        <span class="cn">Student</span> s1 = (<span class="cn">Student</span>) context.getBean(<span
+          class="st">"s1"</span>);
+        s1.showdetails();
+
+        <span class="cn">Student</span> s2 = (<span class="cn">Student</span>) context.getBean(<span
+          class="st">"s2"</span>);
+        s2.showdetails();
+        }
+        }
+      </div>
+
+      <h3>Output — Setter Injection</h3>
+      <div class="output">Student Default Constructor called
+        Student Default Constructor called
+        Name = Rahul
+        Address = Pune
+        Name = Priya
+        Address = Mumbai</div>
+
+      <div class="speak">"Notice — Default Constructor is called first. This proves Spring first creates empty object,
+        then calls setters to inject values. That is Setter Injection."</div>
+
+      <h3>2 Benefits of Setter Injection</h3>
+      <div class="point"><span class="bul">1.</span><span><strong>Flexible</strong> — Dependencies can be changed later
+          even after object is created</span></div>
+      <div class="point"><span class="bul">2.</span><span><strong>Optional Dependencies</strong> — If a setter is not
+          called object still works with null value</span></div>
+    </div>
+  </div>
+
+  <!-- SECTION 5 — CONSTRUCTOR INJECTION THEORY -->
+  <div class="section" id="s5">
+    <div class="sec-hdr" onclick="toggle('s5')">
+      <span class="snum">5</span> Constructor Injection 
+      <span class="toggle">▾</span>
+    </div>
+    <div class="sec-body">
+      <div class="speak">"Constructor Injection means Spring injects values through the constructor of the class.
+        Instead of calling setters after creating the object, Spring passes all values directly when creating the object
+        itself. It uses constructor-arg tag in XML."</div>
+
+      <div class="def">
+        <div class="def-title">Definition — Constructor Injection</div>
+        <div class="def-text">In Constructor Injection Spring injects the dependency values through the constructor of
+          the class. The class must have a parameterized constructor. In XML we use the &lt;constructor-arg&gt; tag.
+          Spring creates the object and injects all values at the same time through the constructor — not through setter
+          methods.</div>
+      </div>
+
+      <h3>How Constructor Injection Works Internally</h3>
+      <div class="flow">
+        <div class="fstep">
+          <div class="fnum">1</div>
+          <div>Spring reads: <span class="icode">&lt;bean id="s1" class="demo.Student"&gt;</span></div>
+        </div>
+        <div class="fstep">
+          <div class="fnum">2</div>
+          <div>Spring reads all <span class="icode">&lt;constructor-arg&gt;</span> tags — collects all values</div>
+        </div>
+        <div class="fstep">
+          <div class="fnum">3</div>
+          <div>Spring calls: <span class="icode">Student s1 = new Student("Rahul", "Pune")</span> — parameterized
+            constructor</div>
+        </div>
+        <div class="fstep">
+          <div class="fnum">4</div>
+          <div>Object is created with all values already injected — no separate setter calls needed</div>
+        </div>
+      </div>
+
+      <h3>Constructor Injection — Full Code</h3>
+
+      <div class="flabel">src/demo/Student.java — with Parameterized Constructor</div>
+      <div class="code"><span class="kw">package</span> demo;
+
+        <span class="kw">public class</span> <span class="cn">Student</span> {
+
+        <span class="kw">private</span> String name;
+        <span class="kw">private</span> String address;
+
+        <span class="cm">// DEFAULT CONSTRUCTOR</span>
+        <span class="kw">public</span> <span class="cn">Student</span>() {
+        System.out.println(<span class="st">"Default Constructor"</span>);
+        }
+
+        <span class="cm">// PARAMETERIZED CONSTRUCTOR — Spring uses this for Constructor Injection</span>
+        <span class="kw">public</span> <span class="cn">Student</span>(String name, String address) {
+        <span class="kw">this</span>.name = name;
+        <span class="kw">this</span>.address = address;
+        System.out.println(<span class="st">"Parameterized Constructor called"</span>);
+        }
+
+        <span class="cm">// Getters</span>
+        <span class="kw">public</span> String getName() { <span class="kw">return</span> name; }
+        <span class="kw">public</span> String getAddress() { <span class="kw">return</span> address; }
+
+        <span class="cm">// Display method</span>
+        <span class="kw">public void</span> showdetails() {
+        System.out.println(<span class="st">"Name = "</span> + name);
+        System.out.println(<span class="st">"Address = "</span> + address);
+        }
+        }
+      </div>
+
+      <div class="flabel">src/applicationContext.xml — Constructor Injection using &lt;constructor-arg&gt; tag</div>
+      <div class="code">&lt;?xml version=<span class="xmlval">"1.0"</span> encoding=<span
+          class="xmlval">"UTF-8"</span>?&gt;
+        &lt;<span class="xmltag">beans</span> xmlns=<span
+          class="xmlval">"http://www.springframework.org/schema/beans"</span>
+        xmlns:xsi=<span class="xmlval">"http://www.w3.org/2001/XMLSchema-instance"</span>
+        xsi:schemaLocation=<span class="xmlval">"http://www.springframework.org/schema/beans
+          http://www.springframework.org/schema/beans/spring-beans.xsd"</span>&gt;
+
+        <span class="cm">&lt;!-- Constructor Injection — using constructor-arg tag --&gt;</span>
+        &lt;<span class="xmltag">bean</span> id=<span class="xmlval">"s1"</span> class=<span
+          class="xmlval">"demo.Student"</span>&gt;
+        &lt;<span class="xmltag">constructor-arg</span> value=<span class="xmlval">"Rahul"</span> /&gt;
+        &lt;<span class="xmltag">constructor-arg</span> value=<span class="xmlval">"Pune"</span> /&gt;
+        &lt;/<span class="xmltag">bean</span>&gt;
+
+        &lt;<span class="xmltag">bean</span> id=<span class="xmlval">"s2"</span> class=<span
+          class="xmlval">"demo.Student"</span>&gt;
+        &lt;<span class="xmltag">constructor-arg</span> value=<span class="xmlval">"Priya"</span> /&gt;
+        &lt;<span class="xmltag">constructor-arg</span> value=<span class="xmlval">"Mumbai"</span> /&gt;
+        &lt;/<span class="xmltag">bean</span>&gt;
+
+        &lt;/<span class="xmltag">beans</span>&gt;
+      </div>
+
+      <div class="warn">Order matters in Constructor Injection! The first constructor-arg value goes to first parameter
+        of constructor, second goes to second. Make sure order in XML matches constructor parameter order.</div>
+
+      <div class="flabel">src/demo/Test.java — same as before</div>
+      <div class="code"><span class="kw">package</span> demo;
+        <span class="kw">import</span> org.springframework.context.<span class="cn">ApplicationContext</span>;
+        <span class="kw">import</span> org.springframework.context.support.<span
+          class="cn">ClassPathXmlApplicationContext</span>;
+
+        <span class="kw">public class</span> <span class="cn">Test</span> {
+        <span class="kw">public static void</span> main(String[] args) {
+        <span class="cn">ApplicationContext</span> context =
+        <span class="kw">new</span> <span class="cn">ClassPathXmlApplicationContext</span>(<span
+          class="st">"applicationContext.xml"</span>);
+
+        <span class="cn">Student</span> s1 = (<span class="cn">Student</span>) context.getBean(<span
+          class="st">"s1"</span>);
+        s1.showdetails();
+
+        <span class="cn">Student</span> s2 = (<span class="cn">Student</span>) context.getBean(<span
+          class="st">"s2"</span>);
+        s2.showdetails();
+        }
+        }
+      </div>
+
+      <h3>Output — Constructor Injection</h3>
+      <div class="output">Parameterized Constructor called
+        Parameterized Constructor called
+        Name = Rahul
+        Address = Pune
+        Name = Priya
+        Address = Mumbai</div>
+
+      <div class="speak">"Notice — this time Parameterized Constructor is called — NOT default constructor. This proves
+        Spring directly created the object with values already injected. That is Constructor Injection."</div>
+
+      <h3>2 Benefits of Constructor Injection</h3>
+      <div class="point"><span class="bul">1.</span><span><strong>Immutable dependencies</strong> — Once injected
+          through constructor values cannot be changed. Safe and secure.</span></div>
+      <div class="point"><span class="bul">2.</span><span><strong>Cleaner code</strong> — All required dependencies are
+          guaranteed at object creation time. No null values possible.</span></div>
+    </div>
+  </div>
+
+  <!-- SECTION 6 — DIFFERENCE TABLE -->
+  <div class="section" id="s6">
+    <div class="sec-hdr" onclick="toggle('s6')">
+      <span class="snum">6</span> Setter vs Constructor Injection — Difference Table — 10 min
+      <span class="toggle">▾</span>
+    </div>
+    <div class="sec-body">
+      <div class="speak">"This difference table is very important for your test and for interviews. Write this down
+        carefully."</div>
+      <table>
+        <tr>
+          <th>Parameter</th>
+          <th>Setter Injection</th>
+          <th>Constructor Injection</th>
+        </tr>
+        <tr>
+          <td>XML Tag used</td>
+          <td>&lt;property&gt;</td>
+          <td>&lt;constructor-arg&gt;</td>
+        </tr>
+        <tr>
+          <td>How Spring injects</td>
+          <td>Through setter methods</td>
+          <td>Through constructor</td>
+        </tr>
+        <tr>
+          <td>Object creation</td>
+          <td>Default constructor called first, then setters called</td>
+          <td>Parameterized constructor called — values injected at creation</td>
+        </tr>
+        <tr>
+          <td>When to use</td>
+          <td>When dependencies are optional or can change later</td>
+          <td>When dependencies are mandatory and must be provided at creation</td>
+        </tr>
+        <tr>
+          <td>Dependency type</td>
+          <td>Optional dependencies</td>
+          <td>Mandatory dependencies</td>
+        </tr>
+        <tr>
+          <td>Immutability</td>
+          <td>Not immutable — values can be changed after injection</td>
+          <td>Immutable — values cannot be changed after injection</td>
+        </tr>
+        <tr>
+          <td>Efficiency</td>
+          <td>Slightly slower — object created first, then values injected</td>
+          <td>Faster — object created with values in one step</td>
+        </tr>
+        <tr>
+          <td>Null values</td>
+          <td>Possible — if setter not called field stays null</td>
+          <td>Not possible — constructor ensures all values provided</td>
+        </tr>
+        <tr>
+          <td>Recommended?</td>
+          <td>Not recommended as first choice</td>
+          <td> Recommended by Spring team as first choice</td>
+        </tr>
+      </table>
+      <div class="tip">Simple rule to remember: Optional things → Setter Injection. Mandatory things → Constructor
+        Injection. Spring team recommends Constructor Injection always.</div>
+    </div>
+  </div>
+
+  <!-- SECTION 7 — PRACTICE TASK -->
+  <div class="section" id="s7">
+    <div class="sec-hdr" onclick="toggle('s7')">
+      <span class="snum">7</span> Practice Task
+      <span class="toggle">▾</span>
+    </div>
+    <div class="sec-body">
+      <div class="speak">"Now you do both on your own. First setter injection, then constructor injection. This will
+        confirm you understood the difference."</div>
+
+      <h3>Task 1 — Setter Injection</h3>
+      <div class="point"><span class="bul">1.</span><span>Create <span class="icode">Employee.java</span> with fields:
+          empId (int), empName (String), department (String)</span></div>
+      <div class="point"><span class="bul">2.</span><span>Add default constructor, getters, setters, showEmployee()
+          method</span></div>
+      <div class="point"><span class="bul">3.</span><span>In XML use <span class="icode">&lt;property&gt;</span> tag to
+          inject values — id="e1"</span></div>
+      <div class="point"><span class="bul">4.</span><span>Run and verify default constructor is called in output</span>
+      </div>
+
+      <h3>Task 2 — Constructor Injection</h3>
+      <div class="point"><span class="bul">1.</span><span>Add parameterized constructor to same Employee.java</span>
+      </div>
+      <div class="point"><span class="bul">2.</span><span>In XML add new bean id="e2" using <span
+            class="icode">&lt;constructor-arg&gt;</span> tag</span></div>
+      <div class="point"><span class="bul">3.</span><span>In Test.java get both e1 and e2 beans and call
+          showEmployee()</span></div>
+      <div class="point"><span class="bul">4.</span><span>Run and verify — e1 shows default constructor, e2 shows
+          parameterized constructor</span></div>
+
+      <div class="output">Expected Output:
+        Default Constructor
+        Parameterized Constructor called
+        EmpId = 101, EmpName = Sagar, Dept = Java
+        EmpId = 102, EmpName = Priya, Dept = Python</div>
+
+    
+    </div>
+  </div>
+
+  <!-- SECTION 8 — REVISION QUESTIONS -->
+  <div class="section" id="s8">
+    <div class="sec-hdr" onclick="toggle('s8')">
+      <span class="snum">8</span> Revision Questions
+      <span class="toggle">▾</span>
+    </div>
+    <div class="sec-body">
+      <div class="point"><span class="bul">Q1.</span><span>What is Dependency Injection? Why do we need it?</span></div>
+      <div class="point"><span class="bul">Q2.</span><span>What are the 2 types of DI in Spring?</span></div>
+      <div class="point"><span class="bul">Q3.</span><span>Which XML tag is used for Setter Injection?</span></div>
+      <div class="point"><span class="bul">Q4.</span><span>Which XML tag is used for Constructor Injection?</span></div>
+      <div class="point"><span class="bul">Q5.</span><span>Which constructor does Spring call in Setter Injection —
+          default or parameterized?</span></div>
+      <div class="point"><span class="bul">Q6.</span><span>Which injection type is recommended by Spring team and
+          why?</span></div>
+      <div class="point"><span class="bul">Q7.</span><span>What is Tight Coupling and Loose Coupling?</span></div>
+    </div>
+  </div>
+
+  
+
+</div>
+
+<script>
+  function toggle(id) {
+    document.getElementById(id).classList.toggle('collapsed');
+  }
+</script>
