@@ -3430,7 +3430,7 @@ Output
 
 # Common Beginner Mistakes
 
-❌ Forgetting braces `{}`
+ Forgetting braces `{}`
 
 ```javascript
 if(age>=18)
@@ -3441,7 +3441,7 @@ Although valid for a single statement, always use braces for better readability.
 
 ---
 
-❌ Using `=` instead of `===`
+ Using `=` instead of `===`
 
 Wrong
 
@@ -3457,7 +3457,7 @@ if(age===18)
 
 ---
 
-❌ Infinite Loop
+ Infinite Loop
 
 ```javascript
 let i=1;
@@ -3487,7 +3487,7 @@ i++;
 
 ---
 
-❌ Forgetting `break` in `switch`
+ Forgetting `break` in `switch`
 
 Without `break`, execution falls through to the next case.
 
