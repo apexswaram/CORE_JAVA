@@ -1341,29 +1341,6 @@ console.log(Number(salary));
 ```
 
 ---
-
-Awesome! I'm glad you liked the format. 😊
-
-For the rest of the course, I'll keep the **same professional structure**:
-
-* ✅ Simple definitions
-* ✅ Real-world examples
-* ✅ Easy explanations
-* ✅ Syntax
-* ✅ Multiple code examples
-* ✅ Output for every program
-* ✅ Tables
-* ✅ Important Notes
-* ✅ Memory Tips
-* ✅ Common Beginner Mistakes
-* ✅ Interview Questions
-* ✅ Practice Programs
-* ✅ Summary
-
----
-
-# Day 1 - JavaScript Fundamentals (Part 2)
-
 # Operators
 
 ---
@@ -2195,7 +2172,7 @@ Pass
 
 # Common Beginner Mistakes
 
-❌ Using `=` instead of `==` or `===`.
+ Using `=` instead of `==` or `===`.
 
 Wrong
 
@@ -2211,7 +2188,7 @@ if (age === 18)
 
 ---
 
-❌ Using `==` when strict comparison is needed.
+ Using `==` when strict comparison is needed.
 
 ```javascript
 5 == "5"
@@ -2225,7 +2202,7 @@ Better
 
 ---
 
-❌ Forgetting operator precedence.
+ Forgetting operator precedence.
 
 Wrong assumption
 
@@ -2241,7 +2218,7 @@ Correct
 
 ---
 
-❌ Confusing pre-increment and post-increment.
+ Confusing pre-increment and post-increment.
 
 ```javascript
 let a = 5;
@@ -2431,7 +2408,6 @@ let result = (num1 + num2) * 2 > 30 && num1 % num2 !== 0;
 console.log(result);
 ```
 ---
-# Day 1 - JavaScript Fundamentals (Part 3)
 
 # Conditional Statements
 
